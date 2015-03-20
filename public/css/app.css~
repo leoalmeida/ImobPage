@@ -1,0 +1,7 @@
+body {
+  padding-top: 50px;
+}
+
+.notetitle,.tagLookup {
+    cursor:pointer;
+}

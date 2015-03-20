@@ -1,0 +1,301 @@
+	
+  <ol class="breadcrumb">
+      <li><a href="./">Imobcat</a></li>
+      <li>Cadastro</li>
+      <li><a href="#!/cadastro/clientes">Clientes</a></li>
+      <li class="active">Formulário de Cliente</li>
+  </ol>
+
+	<h1 class="sub-header">{{entidade}}</h1>
+	
+	<div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+	<div data-ng-show="progress.active()" style="color: red; font-size: 50px;">Enviando&hellip;</div>
+	
+	<form name="myForm" novalidate class="form-horizontal" role="form">
+	    <div class="row">
+	      <!-- Informações Básicas -->
+        <div class="col-xs-12 col-md-6">          
+          <div class="panel panel-body panel-default">
+            <legend>
+                  <label for="telefones" class="control-label">Informações Básicas</label>                          
+            </legend>
+            <div class="form-group">
+              <!-- TIPO DE CLIENTE -->
+                <div class="col-xs-11">
+                    <div class="btn-group btn-group-justified">                    
+                        <label data-ng-repeat="tpcliente in tiposClientes" data-ng-init="novocliente.tipoCliente[$index]=false" class="btn btn-primary text-capitalize" data-ng-model="novocliente.tipoCliente[$index]" btn-checkbox="tpcliente.value"><strong><i class="fa fa-paw" data-ng-show="novocliente.tipoCliente[$index]"></i>&nbsp;{{tpcliente.text}}</strong></label>                    
+                    </div>
+                </div>          
+                <div class="col-xs-1">
+                    <span class="label label-danger" data-ng-show="submitted && myForm.tiposClientes.$error.required">Obrigat&oacute;rio!</span>
+                </div>
+            </div>  
+              <!-- CPF -->
+            <div class="form-group">
+                <label for="cpf" class="col-xs-2 control-label">CPF</label>                  
+                <div class="col-xs-9">		
+                  <input type="text" id="cpf" name="cpf" data-ng-model="novocliente.cpf" class="form-control" required="required" placeholder="CPF" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" />
+                </div>
+                <div class="col-xs-1">
+                  <span class="label label-danger" data-ng-show="submitted && myForm.cpf.$error.required">Obrigat&oacute;rio!</span>
+                  <span class="label label-danger" data-ng-show="submitted && myForm.$error.cpf">CPF Inv&aacute;lido!</span>
+                </div>                
+            </div>  
+              <!-- Nome -->
+            <div class="form-group">
+                  <label for="nome" class="col-xs-2 control-label">Nome</label>	
+                  <div class="col-xs-9">			
+                    <input type="text" id="nome" name="nome" data-ng-model="novocliente.nome" class="form-control" required="required" placeholder="Nome" />	
+                  </div>
+                  <div class="col-xs-1">
+                    <span class="label label-danger" data-ng-show="submitted && myForm.name.$error.required">Obrigat&oacute;rio!</span>
+                  </div>
+            </div>    
+              <!-- Email --> 
+            <div class="form-group">
+                  <label for="nome" class="col-xs-2 control-label">Email</label>	
+                  <div class="col-xs-9">
+                    <div class="input-group input-group">
+                      <span class="input-group-addon">@</span>				
+                      <input type="email" id="email" name="email" data-ng-model="novocliente.email" class="form-control" required="required" placeholder="E-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+                    </div>
+                  </div>
+                  <div class="col-xs-1">
+                    <span class="label label-danger" data-ng-show="submitted && myForm.email.$error.required">Obrigat&oacute;rio!</span>
+                    <span class="label label-danger" data-ng-show="submitted && myForm.$error.email">Email Inv&aacute;lido!</span>
+                  </div>        
+            </div>
+          </div>
+        </div>
+        
+        <!-- Telefones -->
+        <div class="col-xs-12 col-md-6">          
+          <div class="panel panel-body panel-default">
+              <legend>                    
+                    <label for="telefones" class="control-label">Telefones</label>                    
+                    <span class="label label-danger" data-ng-show="submitted && myForm.tel.$error.required">Obrigat&oacute;rio!</span>
+                    <span class="label label-danger" data-ng-show="submitted && myForm.$error.tel">Telefone inv&aacute;lido!</span>                    
+              </legend>
+              <!-- Tipo de Telefone -->
+              <div class="form-group">
+                      <div class="col-xs-12">
+                        <label for="tpEndereco" class="control-label">Tipo de Telefone:</label>
+                      </div>
+                      <div class="col-xs-12">                   
+                          <div class="btn-group btn-group-justified">                                                                              
+                            <label data-ng-repeat="tpTelefone in tiposTelefones" class="btn btn-primary text-capitalize" data-ng-model="telefone.tipo" data-btn-radio="'{{tpTelefone.value}}'"><strong><i data-ng-show="telefone.tipo===tpTelefone.value" class="fa fa-paw"></i>&nbsp;{{tpTelefone.text}}</strong></label>
+                            </div>
+                      </div>
+              </div>
+              <div class="form-group">
+                  <div class="col-xs-8 col-md-12 col-lg-8">
+                      <div class="input-group">                  
+                          <span class="input-group-addon" ><i class="fa fa-phone fa-fw"></i></span>
+                          <input type="text" id="tel" data-ng-model="telefone.numero" class="form-control" required="required" pattern="\([0-9]{2}\) [0-9]{4,6}-[0-9]{3,4}$" />                          
+                      </div>
+                  </div>
+                  <div class="col-xs-4 col-md-12 col-lg-4">
+                      <button data-ng-click="incluirTelefone()" class="btn btn-primary btn-block" >
+                          <i class="fa fa-upload fa-fw fa-inverse"></i>&nbsp;Incluir
+                      </button>
+                  </div>                             
+              </div>
+              <label>
+                  Telefones Cadastrados
+              </label>                                
+              <div class="well">
+                  <button class="btn btn-info btn-block text-capitalize" ng-repeat="tel in novocliente.telefones">
+                        <div class="close" aria-label="Close" data-ng-click="removeTelefone($index)"><i class="fa fa-times-circle-o fa-lg fa-fw" aria-hidden="true"></i></div>                                            
+                        {{tel.tipo}}: {{tel.numero}}
+                  </button>                          
+              </div>                              
+
+          </div><!-- Painel Telefones -->
+        </div><!-- Div Telefones -->
+      </div><!-- Row -->
+      
+      <!-- Endereço -->
+      <div class="row">
+        <div class="col-xs-12">
+          <!-- Form Name -->
+          <div class="form-group">
+            <div class="panel panel-body panel-default">                
+                <!-- Header -->
+                <legend>
+                    <label for="enderecos" class="control-label">Endere&ccedil;os</label>                          
+                </legend>
+                <!-- Formulario -->
+                <div class="col-xs-12 col-md-6">
+                        <!-- Tipo de Endereço -->
+                        <div class="form-group">
+                              <label for="tpEndereco" class="control-label">Tipo de Endereço:</label>
+                              <div class="row">                              
+                                  <div class="col-xs-12">                   
+                                      <div class="btn-group btn-group-justified">                                                                              
+                                        <label data-ng-repeat="tpEndereco in tiposEnderecos" class="btn btn-primary text-capitalize" data-ng-model="endereco.tipo" data-btn-radio="'{{tpEndereco.value}}'"><strong><i data-ng-show="endereco.tipo===tpEndereco.value" class="fa fa-paw"></i>&nbsp;{{tpEndereco.text}}</strong></label>
+                                      </div>
+                                  </div>                                  
+                              </div>
+                        </div>
+                        
+                        <!-- Tipo de Imóvel -->
+                        <div class="form-group">
+                              <label for="tpImovel" class="control-label">Tipo de Residência:</label>
+                              <div class="row">                              
+                                  <div class="col-xs-12">                   
+                                      <div class="btn-group btn-group-justified">
+                                        <label data-ng-repeat="tpImovel in tiposImoveis" class="btn btn-primary text-capitalize" data-ng-model="endereco.tipoImovel" data-btn-radio="'{{tpImovel.value}}'"><strong><i data-ng-show="endereco.tipoImovel===tpImovel.value" class="fa fa-paw"></i>&nbsp;{{tpImovel.text}}</strong></label>
+                                      </div>
+                                  </div>                                  
+                              </div>
+                        </div>                        
+                        
+                        <!-- CEP -->
+                        <div class="form-group has-success has-feedback">
+                          <div class="row">
+                            <label class="col-xs-2 col-md-2 control-label" for="cep">CEP</label>
+                            <div class="col-xs-10 col-md-10">
+                              <input id="cep" name="cep" type="text" placeholder="CEP" class="form-control" data-ng-model="endereco.cep" ng-blur="getCEP()" required>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- Rua -->
+                        <div class="form-group has-success has-feedback">
+                          <div class="row">
+                              <label class="col-xs-2 control-label" for="textinput">Rua</label>
+                              <div class="col-xs-10">
+                                <input name="rua" type="text" placeholder="Rua" class="form-control" data-ng-model="endereco.rua" required>
+                              </div>
+                          </div>
+                        </div>
+                        
+                        <!-- Número -->
+                        <div class="form-group has-success has-feedback">
+                            <div class="row">
+                            <label class="col-xs-2 col-md-2 control-label" for="textinput">N&uacute;mero</label>
+                            <div class="col-xs-10 col-md-10">
+                              <input name="numero" type="text" placeholder="N&uacute;mero" class="form-control" data-ng-model="endereco.numero" required>
+                            </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Complemento -->
+                        <div class="form-group has-success has-feedback">
+                          <div class="row">
+                            <label class="col-xs-2 col-md-2 control-label" for="textinput">Complemento</label>
+                            <div class="col-xs-10 col-md-10">
+                              <input id="complemento" name="complemento" type="text" placeholder="Complemento" class="form-control" data-ng-model="endereco.complemento">
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- Bairro -->
+                        <div class="form-group has-success has-feedback">
+                          <div class="row">
+                            <label class="col-xs-2 col-md-2 control-label" for="textinput">Bairro</label>
+                            <div class="col-xs-10 col-md-10">
+                              <input id="bairro" name="bairro" type="text" placeholder="Bairro" class="form-control" data-ng-model="endereco.bairro" required>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- Cidade -->
+                        <div class="form-group has-success has-feedback">
+                          <div class="row">
+                            <label class="col-xs-2 col-md-2 control-label" for="textinput">Cidade</label>
+                            <div class="col-xs-10 col-md-10">
+                              <input id="cidade" name="cidade" type="text" placeholder="Cidade" class="form-control" data-ng-model="endereco.cidade" required>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- Estado -->
+                        <div class="form-group has-success has-feedback">
+                          <div class="row">
+                            <label class="col-xs-2 col-md-2 control-label" for="textinput">Estado</label>
+                            <div class="col-xs-10 col-md-10">
+                              <input id="uf" name="uf" type="text" placeholder="Estado" class="form-control" data-ng-model="endereco.uf" required>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- País -->
+                        <div class="form-group has-success has-feedback">
+                          <div class="row">
+                            <label class="col-xs-2 col-md-2 control-label" for="pais">Pa&iacute;s</label>
+                            <div class="col-xs-10 col-md-10">
+                              <input name="pais" type="text" placeholder="Pa&iacute;s" class="form-control" data-ng-model="endereco.pais" required>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- Validação do Formulário -->
+                        <div class="form-group">
+                          <div class="row">
+                            <span class="label label-danger" data-ng-show="submitted && myForm.form.$error.required">Obrigat&oacute;rio!</span>
+                          </div>
+                        </div>
+                        
+                        <div class="form-group">                            
+                            <div class="row">
+                              <!-- Botão de inclusão -->
+                              <div class="col-xs-4">                                
+                                <button data-ng-click="incluirEndereco()" class="btn btn-primary btn-block" >
+                                  <i class="fa fa-upload fa-fw fa-inverse"></i>&nbsp;Incluir
+                                </button>
+                              </div>
+                            </div>
+                        </div>
+                </div>
+                <!-- Lista de objetos incluídos -->
+                <div class="col-xs-12 col-md-6">              
+                      <label>
+                          Endereços Cadastrados
+                      </label>
+                      <div class="well">
+                          <!-- Lista de objetos utilizando apenas o identificador -->
+                          <button  class="btn btn-info btn-block text-capitalize" data-ng-repeat="end in novocliente.enderecos" popover-placement="top" popover="Imóvel: {{end.endereco | formatoEndereco}}" popover-append-to-body="true" popover-trigger="focus">                                
+                              {{end.tipo}} : {{end.bairro}}
+                              <div class="close" aria-label="Close" data-ng-click="removeEndereco($index)"><i class="fa fa-times-circle-o fa-lg fa-fw" aria-hidden="true"></i></div>                              
+                              <i class="fa fa-info pull-left"></i>
+                          </button>                          
+                      </div>
+                      <div class="well" data-ng-show="submitted && myForm.endereco.$error">
+                        <span class="label label-danger" data-ng-show="submitted && myForm.endereco.tipo.$error.required">Obrigat&oacute;rio!</span>
+                        <span class="label label-danger" data-ng-show="submitted && myForm.endereco.tipoImovel.$error.required">Obrigat&oacute;rio!</span>
+                      </div>                      
+                </div>                            
+            </div>                
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+            <div class="row">
+            <div class="col-xs-offset-2 col-md-offset-2 col-xs-10 col-md-8">			
+              <button data-ng-disabled="progress.active()" data-ng-click="submit(myForm)" class="btn btn-success btn-lg col-xs-offset-2 col-md-offset-2 col-xs-3 col-md-3" ><i class="fa fa-upload fa-fw fa-inverse"></i>&nbsp;Finalizar</button>
+              <a class="btn btn-danger btn-lg col-xs-offset-3 col-md-offset-3 col-xs-3 col-md-3" href="#!/cadastro/clientes" target="_self"><i class="fa fa-times fa-fw fa-inverse"></i>&nbsp;Cancelar</a>
+            </div>
+            </div>
+      </div>
+	
+	</form>
+
+<!-- Custom scripts --> 
+<script>
+
+   // using jQuery Mask Plugin v1.7.5
+   $("#cep").mask("00000-000");
+   $("#cpf").mask("000.000.000-00");
+   var maskBehavior = function (val) {
+     return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+   },
+   options = {
+      onKeyPress: function(val, e, field, options) {
+        field.mask(maskBehavior.apply({}, arguments), options);
+      }
+   };
+   $("#tel").mask(maskBehavior, options);      	
+	
+</script>
