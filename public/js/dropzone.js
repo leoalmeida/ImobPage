@@ -302,7 +302,7 @@
             return function(e) {
               e.preventDefault();
               e.stopPropagation();
-              if (file.status === Dropzone.DOWNLOAD) {
+              if (file.status === Dropzone.SUCCESS) {
                 if (_this.options.dictOpenUploadConfirmation) {
                   return Dropzone.confirm(_this.options.dictOpenUploadConfirmation, function() {
                     return _this.openFile(file);
@@ -316,7 +316,6 @@
           _ref3 = file.previewElement.querySelectorAll("[data-dz-open]");
           for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
             openLink = _ref3[_k];
-            window.open("http://www.mywebsite.com/uploadsdirectory/"+file.name);
             _results.push(openLink.addEventListener("click", openFileEvent));
           }
           /* END OF NEW PART */
@@ -1064,14 +1063,7 @@
     };
     
     Dropzone.prototype.openFile = function(file) {
-      if (file.status === Dropzone.UPLOADING) {
-        this.cancelUpload(file);
-      }
-      this.files = without(this.files, file);
-      this.emit("removedfile", file);
-      if (this.files.length === 0) {
-        return this.emit("reset");
-      }
+      window.open(url + file.name);
     };
 
     Dropzone.prototype.removeAllFiles = function(cancelIfNecessary) {
