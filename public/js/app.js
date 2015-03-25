@@ -1,15 +1,27 @@
 /* global angular,window */
-var imobDbApp = angular.module('imobDbApp', ['angular-gestures', 'ngRoute', 'ngResource', 'loginDbControllers','imoveisDbControllers', 'imoveisDbFilters', 'imoveisDbServices', 'calcController', 'calendarDbControllers', 'syncDbControllers', 'imoveisDbDirectives']);
+var imobDbApp = angular.module('imobDbApp', ['angular-gestures', 
+                                              'ngRoute', 
+                                              'ngResource',
+                                              'imobDbControllers', 
+                                              'imobDbFilters', 
+                                              'imobDbServices', 
+                                              'imobDbDirectives',
+                                              'loginDbControllers',                                               
+                                              'calcController', 
+                                              'calendarDbControllers', 
+                                              'syncDbControllers', 
+                                              'dropzone']);
 
  
+var dropzone = angular.module('dropzone', []);
+var imobDbControllers = angular.module('imobDbControllers', ['ui.bootstrap', 'ngResource', 'ngAnimate', 'xc.indexedDB']);
+var imobDbFilters = angular.module('imobDbFilters', []);
+var imobDbServices = angular.module('imobDbServices', []);
+var imobDbDirectives = angular.module('imobDbDirectives', []);
 var loginDbControllers = angular.module('loginDbControllers', []);
-var syncDbControllers = angular.module('syncDbControllers', ['ui.bootstrap', 'ngAnimate', 'xc.indexedDB']);
-var calendarDbControllers = angular.module('calendarDbControllers', ['ui.calendar', 'ui.bootstrap', 'ngDraggable', 'ngAnimate', 'xc.indexedDB']);
 var calcController = angular.module('calcController', []);
-var imoveisDbControllers = angular.module('imoveisDbControllers', ['ui.bootstrap', 'ngResource', 'ngAnimate', 'xc.indexedDB']);
-var imoveisDbDirectives = angular.module('imoveisDbDirectives', []);
-var imoveisDbServices = angular.module('imoveisDbServices', []);
-var imoveisDbFilters = angular.module('imoveisDbFilters', []);
+var calendarDbControllers = angular.module('calendarDbControllers', ['ui.calendar', 'ui.bootstrap', 'ngDraggable', 'ngAnimate', 'xc.indexedDB']);
+var syncDbControllers = angular.module('syncDbControllers', ['ui.bootstrap', 'ngAnimate', 'xc.indexedDB']);
 
 
 var options = {};
@@ -20,7 +32,6 @@ options.api.msgs = {"nottosync":{text:"Não há informações para sincronizar",
                     "failtosync":{text:"Falha na sincronização com o servidor!!",type:"danger"},
                     "finalsync":{text:"Sincronização finalizada",type:"success"}
                    };
-options.api.equipid = "default";
 
 imobDbApp.config(['$routeProvider', '$locationProvider', 'hammerDefaultOptsProvider',
 	function($routeProvider , $locationProvider, hammerDefaultOptsProvider)
@@ -28,7 +39,7 @@ imobDbApp.config(['$routeProvider', '$locationProvider', 'hammerDefaultOptsProvi
 		$routeProvider.
 		  when('/', {
 				templateUrl: '/partials/home.html',
-				controller: 'HomeCtrl',
+				controller: 'HomeCtrl',	
 				access: { requiredAuthentication: true }
 			}).
       when('/upload', {
@@ -49,6 +60,12 @@ imobDbApp.config(['$routeProvider', '$locationProvider', 'hammerDefaultOptsProvi
       when('/sync', {
 				templateUrl: '/partials/sync.html',
 				controller: 'syncCtrl',
+				access: { requiredAuthentication: true }
+			}).
+			when('/biblioteca', {  
+				templateUrl: 'partials/biblioteca.html',
+				//controller: 'BibliotecaCtrl',
+				controller: 'HomeCtrl',
 				access: { requiredAuthentication: true }
 			}).
 			when('/cadastro/clientes', { 
@@ -137,7 +154,7 @@ imobDbApp.config(['$routeProvider', '$locationProvider', 'hammerDefaultOptsProvi
 				access: { requiredAuthentication: false }
 			}).
 			otherwise({
-				redirectTo: '/404'
+				access: { requiredAuthentication: true }
 			});
 			
 		$locationProvider.html5Mode(true);

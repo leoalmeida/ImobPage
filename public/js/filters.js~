@@ -1,7 +1,6 @@
 /* global angular */
 
-var imoveisDbFilters = angular.module('imoveisDbFilters', [])
-	.filter('dateFormat', function() {
+imoveisDbFilters.filter('dateFormat', function() {
 		return function(input,type) {
 			if(!input) return "";
 			input = new Date(input);
@@ -16,15 +15,17 @@ var imoveisDbFilters = angular.module('imoveisDbFilters', [])
 			}
 			return res;		
 		};
-	})
-	.filter('formatoEndereco', function() {
+	});
+
+imoveisDbFilters.filter('formatoEndereco', function() {
 		return function(input) {
 			if(!input) return "";			
 			return input.rua + " " + input.numero + "/" + input.complemento + ", " + input.bairro + " - " + input.cidade + "/" + input.estado + " - CEP:" + input.cep;
 		
 		};
-	})
-	.filter('docFilter', [function () {
+	});
+
+imoveisDbFilters.filter('docFilter', [function () {
 	    return function (documents, selectedDocTypes) {
 		var tempDocuments = [];
 		if (!angular.isUndefined(documents) && !angular.isUndefined(selectedDocTypes) && selectedDocTypes.length > 0) {
@@ -39,8 +40,9 @@ var imoveisDbFilters = angular.module('imoveisDbFilters', [])
 		}
 		return tempDocuments;
 	    };
-	}])
-	.filter('ativosFilter', [function () {
+	}]);
+
+imoveisDbFilters.filter('ativosFilter', [function () {
 	    return function (lista) {
 		var tempList = [];
 		if (!angular.isUndefined(lista) && lista.length > 0) {

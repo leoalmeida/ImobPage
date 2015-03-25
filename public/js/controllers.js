@@ -20,7 +20,7 @@ var OBJECT_STORE_CONTRATOS = 'contrato';
 var OBJECT_STORE_DOCUMENTOS = 'documento';
 var OBJECT_STORE_TIPODOC = 'tipoDocumento';
 
-imoveisDbControllers.config(function ($indexedDBProvider) {
+imobDbControllers.config(function ($indexedDBProvider) {
 	$indexedDBProvider
       .connection('imobapp-localdb')
       .upgradeDatabase(myVersion, function(event, db, tx){
@@ -113,42 +113,17 @@ imoveisDbControllers.config(function ($indexedDBProvider) {
       });       
 });
 
-imoveisDbControllers.controller('HomeCtrl', ['$scope', '$indexedDB', 'PostService', 
-		function($scope,  $indexedDB,  PostService ) {	
-	$scope.filesubmit = function(){
-	  //if($scope.endereco.cep) return '';	    
-	    var teste = PostService.publishDocs($scope.docItem).then(function(response) {	        
+imobDbControllers.controller('HomeCtrl', ['$scope', '$indexedDB', 'PostService',
+		function($scope,  $indexedDB,  PostService) {	
+	
+		/*$scope.filesubmit = function(){
+	  //if($scope.endereco.cep) return '';
+      
+	    PostService.publishDocs($scope.docItem).then(function(response) {	        
 	        $scope.fileuploadMSG = "File Sent";          
       });
- 	};
- 	
-	/*$scope.editPost = function () {
-    $http.put('/api/post/' + $routeParams.id, $scope.form).
-      success(function(data) {
-        $location.url('/readPost/' + $routeParams.id);
-      });
-  };*/
-  
-	/*Dropzone.options = {
-	  url: "/syncs/file-upload",
-    previewTemplate: document.querySelector('#preview-template').innerHTML,
-    // Specifing an event as an configuration option overwrites the default
-    // `addedfile` event handler.
-    addedfile: function(file) {
-      file.previewElement = Dropzone.createElement(this.options.previewTemplate);
-      // Now attach this new element some where in your page
-    },
-    thumbnail: function(file, dataUrl) {
-      // Display the image in your file.previewElement
-    },
-    uploadprogress: function(file, progress, bytesSent) {
-      // Display the progress
-    },
-    acceptedFiles: "image/*,application/pdf",
-    addRemoveLinks: "dictCancelUploadConfirmation"
-  };*/
-	
-	//var myDropzone = new Dropzone("div#dropzone", Dropzone.options);
+    };*/
+ 	  
 	
 	/**
 	* @type Contratos
@@ -227,7 +202,7 @@ imoveisDbControllers.controller('HomeCtrl', ['$scope', '$indexedDB', 'PostServic
 			
 }]);
 
-imoveisDbControllers.controller('ClientesCtrl', ['$scope', '$indexedDB', 
+imobDbControllers.controller('ClientesCtrl', ['$scope', '$indexedDB', 
 		function($scope,  $indexedDB) {
 	
 	$scope.objects = [];
@@ -246,16 +221,37 @@ imoveisDbControllers.controller('ClientesCtrl', ['$scope', '$indexedDB',
 	* @type {ObjectStore}
 	*/
 	var clientesObjectStore = $indexedDB.objectStore(OBJECT_STORE_CLIENTES);
+	var documentosObjectStore = $indexedDB.objectStore(OBJECT_STORE_DOCUMENTOS);
 	
-	
-	
-    	function buscaClientes() {
+  function buscaClientes() {
 		clientesObjectStore.getAll().then(function(clientesList) {  
 		//persistanceService.buscaImoveis().then(function(imoveisList) {
-			$scope.listView = clientesList;
+			  $scope.listView = clientesList;
+			  //buscaDocumentos();
 		});		
 	}
 	
+	function buscaDocumentos() {
+	    documentosObjectStore.getAll().then(function(docList) {  
+          // Create the mock file:
+          var mockFile = { name: "Filename", size: 12345 };
+          
+          // Call the default addedfile event handler
+          Dropzone.options.uploadSection.emit("addedfile", mockFile);
+          
+          // And optionally show the thumbnail of the file:
+           Dropzone.options.uploadSection.emit("thumbnail", mockFile, "/image/url");
+          
+          // Make sure that there is no progress bar, etc...
+           Dropzone.options.uploadSection.emit("complete", mockFile);
+          
+          // If you use the maxFiles option, make sure you adjust it to the
+          // correct amount:
+          var existingFileCount = 1; // The number of files already uploaded
+           Dropzone.options.uploadSection.options.maxFiles = myDropzone.options.maxFiles - existingFileCount;
+      });
+	}
+      
 	$scope.setSelectedDocTypes = function () {
 		var tipo = this.tipoDoc.tipo;
 		if (_.contains($scope.formatosSelecionados, tipo)) {
@@ -300,7 +296,7 @@ imoveisDbControllers.controller('ClientesCtrl', ['$scope', '$indexedDB',
 
 }]);
 
-imoveisDbControllers.controller('ClientesEditCtrl', ['$scope', '$log', '$rootScope', '$routeParams', '$location',  '$indexedDB', '$filter', 'cepService', 
+imobDbControllers.controller('ClientesEditCtrl', ['$scope', '$log', '$rootScope', '$routeParams', '$location',  '$indexedDB', '$filter', 'cepService', 
 		function($scope, $log, $rootScope, $routeParams, $location, $indexedDB, $filter, cepService) {
 		
 	if ($routeParams.type === "edit") {$scope.entidade = "Alterar Cliente";}
@@ -416,7 +412,7 @@ imoveisDbControllers.controller('ClientesEditCtrl', ['$scope', '$log', '$rootSco
 	
 }]);
 
-imoveisDbControllers.controller('ImoveisCtrl', ['$scope', '$indexedDB',
+imobDbControllers.controller('ImoveisCtrl', ['$scope', '$indexedDB',
 		function($scope,  $indexedDB) {
 
 	
@@ -490,7 +486,7 @@ imoveisDbControllers.controller('ImoveisCtrl', ['$scope', '$indexedDB',
 }]);
 
 
-imoveisDbControllers.controller('ImoveisEditCtrl', ['$scope', '$log', '$rootScope', '$routeParams', '$location',  '$indexedDB', '$filter','cepService',
+imobDbControllers.controller('ImoveisEditCtrl', ['$scope', '$log', '$rootScope', '$routeParams', '$location',  '$indexedDB', '$filter','cepService',
     function($scope, $log, $rootScope, $routeParams, $location, $indexedDB, $filter, cepService) {
       
     if ($routeParams.type === "edit") {$scope.entidade = "Alterar Imóvel";}
@@ -606,7 +602,7 @@ imoveisDbControllers.controller('ImoveisEditCtrl', ['$scope', '$log', '$rootScop
 			
 }]);
 
-imoveisDbControllers.controller('ContratosCtrl', ['$scope', '$indexedDB',
+imobDbControllers.controller('ContratosCtrl', ['$scope', '$indexedDB',
 		function($scope,  $indexedDB) {
 
 	
@@ -680,7 +676,7 @@ imoveisDbControllers.controller('ContratosCtrl', ['$scope', '$indexedDB',
 			
 }]);
 
-imoveisDbControllers.controller('ContratosEditCtrl', ['$scope', '$log', '$rootScope', '$routeParams', '$location',  '$indexedDB', '$filter',
+imobDbControllers.controller('ContratosEditCtrl', ['$scope', '$log', '$rootScope', '$routeParams', '$location',  '$indexedDB', '$filter',
     function($scope, $log, $rootScope, $routeParams, $location, $indexedDB, $filter) {
       
     if ($routeParams.type === "edit") {$scope.entidade = "Alterar Contrato";}
@@ -818,7 +814,7 @@ imoveisDbControllers.controller('ContratosEditCtrl', ['$scope', '$log', '$rootSc
 			
 }]);
 
-imoveisDbControllers.controller('EventosCtrl', ['$scope', '$indexedDB',
+imobDbControllers.controller('EventosCtrl', ['$scope', '$indexedDB',
 		function($scope,  $indexedDB) {
 
 	
@@ -857,7 +853,7 @@ imoveisDbControllers.controller('EventosCtrl', ['$scope', '$indexedDB',
 			
 }]);
 
-imoveisDbControllers.controller('EventosEditCtrl', ['$scope', '$log', '$rootScope', '$routeParams', '$location',  '$indexedDB', '$filter',
+imobDbControllers.controller('EventosEditCtrl', ['$scope', '$log', '$rootScope', '$routeParams', '$location',  '$indexedDB', '$filter',
     function($scope, $log, $rootScope, $routeParams, $location, $indexedDB, $filter) {
       
     if ($routeParams.type === "edit") {$scope.entidade = "Alterar Evento";}

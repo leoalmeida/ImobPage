@@ -1,15 +1,28 @@
 /* global angular,window */
-var imobDbApp = angular.module('imobDbApp', ['angular-gestures', 'ngRoute', 'ngResource', 'loginDbControllers','imoveisDbControllers', 'imoveisDbFilters', 'imoveisDbServices', 'calcController', 'calendarDbControllers', 'syncDbControllers', 'imoveisDbDirectives']);
+var imobDbApp = angular.module('imobDbApp', ['angular-gestures', 
+                                              'ngRoute', 
+                                              'ngResource',
+                                              'imobDbControllers', 
+                                              'imobDbFilters', 
+                                              'imobDbServices', 
+                                              'imobDbDirectives',
+                                              'loginDbControllers',                                               
+                                              'calcController', 
+                                              'calendarDbControllers', 
+                                              'syncDbControllers',
+                                              'dropzoneDbControllers']);
 
  
+var imobDbControllers = angular.module('imobDbControllers', ['ui.bootstrap', 'ngResource', 'ngAnimate', 'xc.indexedDB']);
+var imobDbFilters = angular.module('imobDbFilters', []);
+var imobDbServices = angular.module('imobDbServices', []);
+var imobDbDirectives = angular.module('imobDbDirectives', []);
 var loginDbControllers = angular.module('loginDbControllers', []);
-var syncDbControllers = angular.module('syncDbControllers', ['ui.bootstrap', 'ngAnimate', 'xc.indexedDB']);
-var calendarDbControllers = angular.module('calendarDbControllers', ['ui.calendar', 'ui.bootstrap', 'ngDraggable', 'ngAnimate', 'xc.indexedDB']);
 var calcController = angular.module('calcController', []);
-var imoveisDbControllers = angular.module('imoveisDbControllers', ['ui.bootstrap', 'ngResource', 'ngAnimate', 'xc.indexedDB']);
-var imoveisDbDirectives = angular.module('imoveisDbDirectives', []);
-var imoveisDbServices = angular.module('imoveisDbServices', []);
-var imoveisDbFilters = angular.module('imoveisDbFilters', []);
+var calendarDbControllers = angular.module('calendarDbControllers', ['ui.calendar', 'ui.bootstrap', 'ngDraggable', 'ngAnimate', 'xc.indexedDB']);
+var syncDbControllers = angular.module('syncDbControllers', ['ui.bootstrap', 'ngAnimate', 'xc.indexedDB']);
+var dropzoneDbControllers = angular.module('dropzoneDbControllers', []);
+
 
 
 var options = {};
@@ -111,9 +124,6 @@ imobDbApp.config(['$routeProvider', '$locationProvider', 'hammerDefaultOptsProvi
 				templateUrl: '/partials/formNewEventos.html',
 				controller: 'EventosEditCtrl',
 				access: { requiredAuthentication: true }
-			}).						
-			when('/unsupported', {
-				templateUrl: '/partials/unsupported.html'
 			}).
 			when('/dashboard', {  
 				templateUrl: '/partials/home.html',
@@ -130,9 +140,17 @@ imobDbApp.config(['$routeProvider', '$locationProvider', 'hammerDefaultOptsProvi
 				templateUrl: 'partials/calculadoraEmprestimo.html',
 				controller: 'calculadoraCtrl',
 				access: { requiredAuthentication: false }
+			}).						
+			when('/unsupported', {
+				templateUrl: '/partials/unsupported.html'
+			}).
+			when('/404', {
+				templateUrl: 'partials/404.html',
+				css: '/css/404.css',
+				access: { requiredAuthentication: false }
 			}).
 			otherwise({
-				redirectTo: '/'
+				redirectTo: '/404'
 			});
 			
 		$locationProvider.html5Mode(true);

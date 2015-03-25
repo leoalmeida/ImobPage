@@ -1,6 +1,6 @@
 /* global angular,window */
 
-imoveisDbServices.factory('AuthenticationService', function() {
+imobDbServices.factory('AuthenticationService', function() {
     var auth = {        
         isAuthenticated: false,
         isAdmin: false
@@ -9,7 +9,7 @@ imoveisDbServices.factory('AuthenticationService', function() {
     return auth;
 });
 
-imoveisDbServices.factory('TokenInterceptor', function ($q, $window, $location, AuthenticationService) {
+imobDbServices.factory('TokenInterceptor', function ($q, $window, $location, AuthenticationService) {
     return {
         request: function (config) {
             config.headers = config.headers || {};
@@ -44,7 +44,7 @@ imoveisDbServices.factory('TokenInterceptor', function ($q, $window, $location, 
     };
 });
 
-imoveisDbServices.factory('PostService', function($http) {
+imobDbServices.factory('PostService', function($http) {
     return {
         findAllPublished: function() {
             return $http.get(options.api.base_url + '/api/items');
@@ -69,7 +69,8 @@ imoveisDbServices.factory('PostService', function($http) {
         publishDocs: function(file) {
             var fd = new FormData();
             fd.append('file', file);
-            return $http.post(options.api.base_url + '/upload/docFile', fd, {
+            //return $http.post(options.api.base_url + '/upload/docFile', fd, {
+            return $http.post(options.api.base_url + '/apis/docFile', fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             });
@@ -86,7 +87,7 @@ imoveisDbServices.factory('PostService', function($http) {
 });
 
 
-imoveisDbServices.factory('UserService', function($http) {
+imobDbServices.factory('UserService', function($http) {
     return {
         signIn: function(username, password) {
             return $http.post(options.api.base_url + '/users/signin', {username: username, password: password});
@@ -102,7 +103,7 @@ imoveisDbServices.factory('UserService', function($http) {
     }
 });
 
-imoveisDbServices.factory('cepService', ['$rootScope', '$http', '$templateCache', function ($rootScope,$http, $templateCache){
+imobDbServices.factory('cepService', ['$rootScope', '$http', '$templateCache', function ($rootScope,$http, $templateCache){
     var server="https://viacep.com.br/ws/";
     var callback="/json?callback=JSON_CALLBACK";
     var method = "JSONP";
@@ -127,7 +128,7 @@ imoveisDbServices.factory('cepService', ['$rootScope', '$http', '$templateCache'
 }]);
 
 
-imoveisDbServices.factory('persistanceService', ['$q', function($q) {
+imobDbServices.factory('persistanceService', ['$q', function($q) {
 
 	var setUp=false;
 	var db;

@@ -1,6 +1,6 @@
 /* global angular */
 
-imoveisDbFilters.filter('dateFormat', function() {
+imobDbFilters.filter('dateFormat', function() {
 		return function(input,type) {
 			if(!input) return "";
 			input = new Date(input);
@@ -17,7 +17,7 @@ imoveisDbFilters.filter('dateFormat', function() {
 		};
 	});
 
-imoveisDbFilters.filter('formatoEndereco', function() {
+imobDbFilters.filter('formatoEndereco', function() {
 		return function(input) {
 			if(!input) return "";			
 			return input.rua + " " + input.numero + "/" + input.complemento + ", " + input.bairro + " - " + input.cidade + "/" + input.estado + " - CEP:" + input.cep;
@@ -25,7 +25,7 @@ imoveisDbFilters.filter('formatoEndereco', function() {
 		};
 	});
 
-imoveisDbFilters.filter('docFilter', [function () {
+imobDbFilters.filter('docFilter', [function () {
 	    return function (documents, selectedDocTypes) {
 		var tempDocuments = [];
 		if (!angular.isUndefined(documents) && !angular.isUndefined(selectedDocTypes) && selectedDocTypes.length > 0) {
@@ -42,7 +42,7 @@ imoveisDbFilters.filter('docFilter', [function () {
 	    };
 	}]);
 
-imoveisDbFilters.filter('ativosFilter', [function () {
+imobDbFilters.filter('ativosFilter', [function () {
 	    return function (lista) {
 		var tempList = [];
 		if (!angular.isUndefined(lista) && lista.length > 0) {

@@ -69,7 +69,8 @@ imoveisDbServices.factory('PostService', function($http) {
         publishDocs: function(file) {
             var fd = new FormData();
             fd.append('file', file);
-            return $http.post(options.api.base_url + '/upload/docFile', fd, {
+            //return $http.post(options.api.base_url + '/upload/docFile', fd, {
+            return $http.post(options.api.base_url + '/apis/docFile', fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             });
