@@ -3,8 +3,8 @@
         <h1 class="page-header">Biblioteca Virtual</h1>        
         <div class="row">                        
               <div class="col-sm-offset-2 col-sm-8">
-                    <div class="input-group input-group-lg">
-                      <input type="text" class="form-control" placeholder="Search for...">
+                    <div class="input-group input-group-lg" role="search">
+                      <input type="search" id="filterField" class="form-control" placeholder="Buscar..."  ng-model="filter">
                       <span class="input-group-btn">
                         <button class="btn btn-default" type="button">
                             <i class="fa fa-search fa-fw"></i>
@@ -67,11 +67,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr data-ng-repeat="item in listViewEventos | filter: filter | orderBy: sortBy" class="clickpointer" data-toggle="modal" data-target="#eventoModal" data-ng-class="{active : isSelected(item), danger: (item.situacao === 'vencido'), warning: (item.situacao === 'avencer')}" data-ng-click="setMaster(item)">        
+                <tr data-ng-repeat="item in listView | filter: filter | orderBy: sortBy" data-ng-class="{active : isSelected(item)" data-ng-click="setMaster(item)">        
                   <td class="text-center	text-capitalize">				    
-                      <h4><strong>Valor 1</strong></h4> 
+                      <h4><strong>Valor 1 {{item.val1}}</strong></h4> 
                   </td>
-                  <td class="text-center	text-capitalize"><h5>Valor 2</h5></td>                    
+                  <td class="text-center	text-capitalize"><h5>Valor 2 {{item.val2}}</h5></td>                    
                 </tr>
               </tbody>
           </table>
