@@ -26,15 +26,16 @@ dropzone.directive('dropzone', function ($window) {
     //document.body
     dropzone = new Dropzone("#uploadSection", {    // passed into the Dropzone constructor                                        
                                              url:  '/apis/docFile',
-                                             maxFilesize: 500,
+                                             maxFilesize: 20,
                                              maxThumbnailFilesize: 5,
                                              headers: {
                                                   'Authorization': 'Bearer ' + $window.sessionStorage.token
                                              },
                                              addRemoveLinks: true,
-                                             thumbnailWidth: 80,
-                                             thumbnailHeight: 80,
-                                             parallelUploads: 20,
+                                             addOpenLinks: true,
+                                             thumbnailWidth: 120,
+                                             thumbnailHeight: 120,
+                                             parallelUploads: 5,
                                              createImageThumbnails: true,
                                              //previewTemplate: previewTemplate,
                                              autoQueue: false, // Make sure the files aren't queued until manually added           
@@ -47,9 +48,12 @@ dropzone.directive('dropzone', function ($window) {
                                                 }
                                                 else { done(); }
                                              },                                             
-                                             dictRemoveFile: '<span class="fa fa-eraser fa-lg"></span>',
-                                             dictCancelUpload: '<span class="fa chain-broker fa-lg"></span>',
-                                             dictCancelUploadConfirmation: "Confirma?",
+                                             //dictRemoveFile: '<span class="fa fa-eraser fa-lg"></span>',
+                                             dictRemoveFile: 'Remover',
+                                             dictCancelUpload: '<span class="fa fa-chain-broker fa-lg"></span>',
+                                             dictOpenFile: '<span class="fa fa-cloud-download fa-lg"></span>',
+                                             dictCancelUploadConfirmation: "Confirma?",                                             
+                                             dictOpenFileConfirmation: 'Deseja abrir o arquivo?',
                                              dictDefaultMessage: "Arraste aqui os documentos!",
                                              init: function() {                          
                                                   document.querySelector("#submit-all").onclick = function() {
@@ -88,9 +92,7 @@ dropzone.directive('dropzone', function ($window) {
                             dropzone.emit("thumbnail", file, "/img/icons/csv.png");
                         } else if (file.type.match(/text.plain/)){ 
                             dropzone.emit("thumbnail", file, "/img/icons/txt.png");
-                        } else {
-                            dropzone.emit("thumbnail", file, "/img/patinhas.png");
-                        }
+                        } 
                     }
                 },
                 'totaluploadprogress': function(progress) {

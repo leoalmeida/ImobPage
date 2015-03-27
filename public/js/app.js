@@ -121,7 +121,6 @@ imobDbApp.config(['$routeProvider', '$locationProvider', 'hammerDefaultOptsProvi
 			when('/cadastro/eventos/new', {  
 				templateUrl: '/partials/formNewEventos.html',
 				controller: 'EventosEditCtrl',
-				css: '/css/dropzone.min.css',
 				access: { requiredAuthentication: true }	
 			}).
 			when('/cadastro/eventos/edit/:id', {

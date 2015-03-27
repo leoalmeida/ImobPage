@@ -1,4 +1,4 @@
-	<link rel="stylesheet" href="/css/dropzone.css"/>
+	<!--<link rel="stylesheet" href="/css/dropzone.css"/>-->
   <ol class="breadcrumb">
       <li><a href="/">Imobcat</a></li>
       <li>Cadastro</li>
@@ -274,73 +274,38 @@
       <!-- Documentação -->
       <div class="row">     
         <div class="col-xs-12">          
-          <div class="panel panel-body panel-default">
-            <legend>
-                  <label for="documents" class="control-label">Documentação</label>                          
-            </legend>
-            <div>
-                <div id="actions" class="row">                      
-                    <div class="col-xs-12">                      
-                        <button class="btn btn-primary" id="submit-all">
-                              <i class="glyphicon glyphicon-upload"></i>
-                              <span>Enviar arquivos</span>
-                        </button>
-                        <button class="btn btn-warning" id="cancel-all">
-                              <i class="glyphicon glyphicon-ban-circle"></i>
-                              <span>Cancelar Todos</span>
-                        </button>
-                    </div>
-                    <br/>   
-                    <div class="col-xs-12">                        
-                        <span class="fileupload-process">
-                          <div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                            <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress=""></div>
-                          </div>
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="dropzone" dropzone="dropzoneConfig" id="uploadSection">
-                
-                  <div  class="dz-default dz-message">
-                    <span> <img src="./img/gaveteirodigital.png" /> Arraste aqui os documentos!</span>                    
-                  </div>
-                  
-                </div>
-                    
-                <!--<div class="table table-striped" class="files" dropzone="dropzoneConfig" id="previews">
-                    <div id="template" class="file-row">
-                      <div class="col-xs-3">
-                          <span class="preview"><img data-dz-thumbnail /></span>
-                      </div>
-                      <div class="col-xs-3">
-                          <p class="name" data-dz-name></p>
-                          <strong class="error text-danger" data-dz-errormessage></strong>
-                      </div>
-                      <div class="col-xs-6">
-                          <p><span class="size" data-dz-size></span><span class="size" data-dz-uploadprogress></span></p>                        
-                          <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                            <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
-                          </div>
-                      </div>
-                      <div>
-                        <button class="btn btn-primary start">
+            <div class="well">
+              <legend>
+                    <label for="documents" class="control-label">Documentação</label>                          
+              </legend>            
+              <div id="actions" class="row">                      
+                  <div class="col-xs-12">                      
+                      <button class="btn btn-primary" id="submit-all">
                             <i class="glyphicon glyphicon-upload"></i>
-                            <span>Start</span>
-                        </button>                      
-                        <button data-dz-remove class="btn btn-warning cancel">
-                          <i class="glyphicon glyphicon-ban-circle"></i>
-                          <span>Cancel</span>
-                        </button>
-                        <button data-dz-remove class="btn btn-danger delete">
-                          <i class="glyphicon glyphicon-trash"></i>
-                          <span>Delete</span>
-                        </button>
-                      </div>
-                    </div>                         
-                </div>  -->            
+                            <span>Enviar arquivos</span>
+                      </button>
+                      <button class="btn btn-warning" id="cancel-all">
+                            <i class="glyphicon glyphicon-ban-circle"></i>
+                            <span>Cancelar Todos</span>
+                      </button>
+                  </div>  
+                  <div class="col-xs-12">                        
+                      <span class="fileupload-process">
+                        <div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                          <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress=""></div>
+                        </div>
+                      </span>
+                  </div>
+              </div>
+                  
+              <div id="dropzone">
+                  <div class="dropzone" dropzone="dropzoneConfig" id="uploadSection">                
+                    <div class="dz-message">
+                      <span> <img src="./img/gaveteirodigital.png" /> Arraste aqui os documentos!</span>                    
+                    </div>                  
+                  </div>
+              </div>  
             </div>
-          </div>
         </div>
       </div>
       
