@@ -27,8 +27,9 @@
                             <button class="square imgdash"  data-toggle="modal" data-target="#contratoModal" data-ng-click="setMaster(item)">
                                 <div class="contentdash">                                     
                                       <span class="badge alert-info squaretitle">Situa&ccedil;&atilde;o: {{contrato.situacao}}</span>                                                                                    
-                                      <i class="fa fa-home icon"></i>                                          
-                                      <p>Imóvel: {{contrato.imovel}}</p>
+                                      <i class="fa fa-home icon"></i>
+                                      <p>Imóvel: {{contrato.imovel.id}}</p>
+                                      <p>{{contrato.imovel.proprietarios[0].nome}}</p>                                      
                                 </div>
                             </button>
                         </div>

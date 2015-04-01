@@ -89,7 +89,7 @@
 				<td class="text-center	text-capitalize clickpointer " data-toggle="modal" data-target="#myModal" ><h5><div data-ng-repeat="locd in item.locadores" ><strong>{{locd.tipo}}</strong> : {{locd.cpf}}</div></h5></td>
 				<td class="text-center	text-capitalize clickpointer" data-toggle="modal" data-target="#myModal" ><h5><div data-ng-repeat="loct in item.locatarios" >{{loct.tipo}} : {{loct.cpf}}</div></h5></td>
 				<td class="text-center	text-capitalize clickpointer" data-toggle="modal" data-target="#myModal" ><h5><strong>{{item.situacao}}</strong></h5></td>
-				<td class="text-center clickpointer" data-toggle="modal" data-target="#myModal" ><h5>{{item.updated | dateFormat}}</h5></td>
+				<td class="text-center clickpointer" data-toggle="modal" data-target="#myModal" ><h5>{{item.updated}}</h5></td>
 				<td class="text-center">
 					<a class="btn btn-primary " href="/cadastro/contratos/edit/{{item.id}}"><i class="fa fa-pencil-square-o fa-fw fa-inverse"></i>&nbsp; Editar</a> 
 					<a class="btn btn-danger ng-hide" data-ng-click="removeContratos(item.id)"><i class="fa fa-trash-o fa-fw fa-inverse"></i>&nbsp; Remover</a>
