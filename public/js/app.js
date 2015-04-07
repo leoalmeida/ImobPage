@@ -26,7 +26,7 @@ var syncDbControllers = angular.module('syncDbControllers', ['ui.bootstrap', 'ng
 
 var options = {};
 options.api = {};
-options.api.base_url = "http://localhost";
+options.api.base_url = "http://127.0.0.1";
 options.api.msgs = {"nottosync":{text:"Não há informações para sincronizar",type:"info"},
                     "syncing":{text:"Aguarde, estamos em sincronização com o servidor!!",type:"warning"},
                     "failtosync":{text:"Falha na sincronização com o servidor!!",type:"danger"},

@@ -12,7 +12,7 @@
 
 dropzone.directive('dropzone', function ($window) {
   return function (scope, element, attrs) {
-    var config, dropzone;
+    var config, dropzone, previewNode, previewTemplate;
     
     
     //var previewNode = document.querySelector("#template");
@@ -24,22 +24,26 @@ dropzone.directive('dropzone', function ($window) {
     Dropzone.options.uploadSection = false;
     //dropzone = new Dropzone(element[0], config.options);
     //document.body
-    dropzone = new Dropzone("#uploadSection", {    // passed into the Dropzone constructor                                        
+    
+    previewNode = document.querySelector("#template");
+    previewNode.id = "";
+    previewTemplate = previewNode.parentNode.innerHTML;
+    previewNode.parentNode.removeChild(previewNode);
+    
+    dropzone = new Dropzone(document.body, {//"#uploadSection", {    // passed into the Dropzone constructor                                        
                                              url:  '/apis/docFile',
                                              maxFilesize: 20,
                                              maxThumbnailFilesize: 5,
                                              headers: {
                                                   'Authorization': 'Bearer ' + $window.sessionStorage.token
                                              },
-                                             addRemoveLinks: true,
-                                             addOpenLinks: true,
                                              thumbnailWidth: 120,
                                              thumbnailHeight: 120,
                                              parallelUploads: 5,
                                              createImageThumbnails: true,
-                                             //previewTemplate: previewTemplate,
+                                             previewTemplate: previewTemplate,
                                              autoQueue: false, // Make sure the files aren't queued until manually added           
-                                             //previewsContainer: "#previews", // Define the container to display the previews
+                                             previewsContainer: "#uploadSection", // Define the container to display the previews
                                              //clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
                                              withCredentials: true,
                                              accept: function(file, done) {
