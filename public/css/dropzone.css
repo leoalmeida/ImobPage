@@ -29,6 +29,8 @@
 .dropzone.dz-clickable { cursor: pointer; }
 .dropzone.dz-clickable * { cursor: default; }
 .dropzone.dz-clickable .dz-message, .dropzone.dz-clickable .dz-message * { cursor: pointer; }
+.dropzone .dz-menu { opacity: 0.5; z-index: 25; position: absolute; top: 0; left: 0; font-size: 13px; min-width: 100%; max-width: 100%; padding: 0.2em; text-align: center; color: rgba(0, 0, 0, 0.9);}
+.dropzone .dz-menu:hover  { opacity: 1; text-align:right}
 .dropzone.dz-started .dz-message { display: none; }
 .dropzone.dz-drag-hover { border-style: solid; }
 .dropzone.dz-drag-hover .dz-message { opacity: 0.5; }

@@ -51,11 +51,8 @@ dropzone.directive('dropzone', function ($window) {
                                                   done("Naha, you don't.");
                                                 }
                                                 else { done(); }
-                                             },                                             
-                                             //dictRemoveFile: '<span class="fa fa-eraser fa-lg"></span>',
-                                             dictRemoveFile: 'Remover',
+                                             },      
                                              dictCancelUpload: '<span class="fa fa-chain-broker fa-lg"></span>',
-                                             dictOpenFile: '<span class="fa fa-cloud-download fa-lg"></span>',
                                              dictCancelUploadConfirmation: "Confirma?",                                             
                                              dictOpenFileConfirmation: 'Deseja abrir o arquivo?',
                                              dictDefaultMessage: "Arraste aqui os documentos!",
@@ -65,19 +62,24 @@ dropzone.directive('dropzone', function ($window) {
                                                   };
                                                   document.querySelector("#cancel-all").onclick = function() {
                                                       dropzone.removeAllFiles();
-                                                  };                                                  
+                                                  };
                                              },                                              
     });
     
     config = {  'eventHandlers': {                
                 'addedfile': function(file) {
-                    var tags = "texto" 
+                    file.tags = []; 
                     
-                    /*file.previewElement.onclick = function() { Dropzone .enqueueFile(file); };                    
-                    var input = document.createElement('input');
-                    input.setAttribute('name', 'filetags');
-                    input.setAttribute('value', '{' + tags + '}');                    
-                    document.querySelector("#uploadSection").appendChild(input);*/
+                    file.previewElement.querySelector(".dz-edit").onclick = function() { 
+                        $('#fileModal').modal(options,file); 
+                        //Dropzone.enqueueFile(file); 
+                    };
+                    
+                    file.previewElement.querySelector(".dz-open").onclick = function() {                        
+                        $('#fileModal').modal(options,file); 
+                        //$get('/apis/docFile/');  
+                        //Dropzone.enqueueFile(file); 
+                    };       
                     
                     if (!file.type.match(/image.*/)) {                        
                         if (file.type.match(/json.*/)){
@@ -97,7 +99,8 @@ dropzone.directive('dropzone', function ($window) {
                         } else if (file.type.match(/text.plain/)){ 
                             dropzone.emit("thumbnail", file, "/img/icons/txt.png");
                         } 
-                    }
+                    };   
+                                                            
                 },
                 'totaluploadprogress': function(progress) {
                     document.querySelector("#total-progress .progress-bar").style.width = progress + "%";
@@ -105,6 +108,7 @@ dropzone.directive('dropzone', function ($window) {
                 'sending': function (file, xhr, formData) {                    
                     // Show the total progress bar when upload starts
                     document.querySelector("#total-progress").style.opacity = "1";
+                   
                     // And disable the start button
                     //file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");              
                 },

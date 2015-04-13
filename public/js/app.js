@@ -10,7 +10,8 @@ var imobDbApp = angular.module('imobDbApp', ['angular-gestures',
                                               'calcController', 
                                               'calendarDbControllers', 
                                               'syncDbControllers', 
-                                              'dropzone']);
+                                              'dropzone'
+                                              ]);
 
  
 var dropzone = angular.module('dropzone', []);
@@ -66,6 +67,11 @@ imobDbApp.config(['$routeProvider', '$locationProvider', 'hammerDefaultOptsProvi
 				templateUrl: 'partials/biblioteca.html',
 				//controller: 'BibliotecaCtrl',
 				controller: 'HomeCtrl',
+				access: { requiredAuthentication: true }
+			}).
+			when('/boleto', { 
+				templateUrl: '/partials/formNewBoleto.html',
+				//controller: 'BoletosCtrl',
 				access: { requiredAuthentication: true }
 			}).
 			when('/cadastro/clientes', { 

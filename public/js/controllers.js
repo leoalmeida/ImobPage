@@ -315,10 +315,18 @@ imobDbControllers.controller('ClientesEditCtrl', ['$scope', '$log', '$rootScope'
 	$scope.endereco = {};
 	$scope.telefone = {};
 	$scope.documentos = [];
+	$scope.selectedDoc = {};
 	$scope.novocliente.tipoCliente = [];
 	$scope.novocliente.enderecos = [];	
-	$scope.novocliente.telefones = [];	
+	$scope.novocliente.telefones = [];
+	$scope.selectedDoc.name = "Teste Selected";
+	$scope.selectedDoc.tags = [];		
 	$scope.novocliente.documentos = [];
+	
+	$('#fileModal').on('show.bs.modal', function (event) {
+      $scope.selectedDoc = $(event.relatedTarget)[0];
+      $scope.$apply();
+  })
 		
 	var clientesObjectStore = $indexedDB.objectStore(OBJECT_STORE_CLIENTES);
 	
@@ -343,6 +351,29 @@ imobDbControllers.controller('ClientesEditCtrl', ['$scope', '$log', '$rootScope'
 	$scope.removeTelefone = function(index){
 	    $scope.novocliente.telefones.splice(index, 1);
 	};
+	
+	$scope.incluirTag = function(){
+	    //if (tapButton !== key.enter) return;
+	   
+	    if ($scope.tag !== ''){
+          $scope.selectedDoc.tags.push($scope.tag);
+          $scope.tag = '';
+          $('#tag').focus();
+      }
+	};
+	
+	$scope.removeTag = function(index){
+	    $scope.selectedDoc.tags.splice(index, 1);
+	};
+		
+	$scope.selectDoc = function(index){
+	    $scope.selectedDoc = $scope.document;
+	};
+	
+	$scope.enterKey = function(keyEvent) {	  
+    if (keyEvent.which === 13)
+        $scope.incluirTag();
+  }
 	
 	$scope.cancel = function() {
 			
