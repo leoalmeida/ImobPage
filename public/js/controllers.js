@@ -113,6 +113,7 @@ imobDbControllers.config(function ($indexedDBProvider) {
       });       
 });
 
+
 imobDbControllers.controller('HomeCtrl', ['$scope', '$indexedDB', 'PostService',
 		function($scope,  $indexedDB,  PostService) {	
 	
@@ -356,14 +357,14 @@ imobDbControllers.controller('ClientesEditCtrl', ['$scope', '$log', '$rootScope'
 	    //if (tapButton !== key.enter) return;
 	   
 	    if ($scope.tag !== ''){
-          $scope.selectedDoc.tags.push($scope.tag);
+          $scope.selectedDoc.tags.user.push($scope.tag);
           $scope.tag = '';
           $('#tag').focus();
       }
 	};
 	
 	$scope.removeTag = function(index){
-	    $scope.selectedDoc.tags.splice(index, 1);
+	    $scope.selectedDoc.tags.user.splice(index, 1);
 	};
 		
 	$scope.selectDoc = function(index){

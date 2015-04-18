@@ -68,9 +68,9 @@ dropzone.directive('dropzone', function ($window) {
     
     config = {  'eventHandlers': {                
                 'addedfile': function(file) {
-                    file.tags = [];
-                    file.tags.fixed = [];
-                    file.tags.user = [];
+                    file.params.tags = [];
+                    file.params.tags.fixed = [];
+                    file.params.tags.user = [];
                     
                     file.previewElement.querySelector(".dz-edit").onclick = function() { 
                         $('#fileModal').modal(options,file); 

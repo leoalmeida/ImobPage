@@ -278,7 +278,11 @@
                     <label for="documents" class="control-label">Documentação</label>                          
               </legend>            
               <div id="actions" class="row">                      
-                  <div class="col-xs-12">                      
+                  <div class="col-xs-12">
+                      <button class="btn btn-info" id="include-file">
+                            <i class="glyphicon glyphicon-upload"></i>
+                            <span>Incluir Arquivo</span>
+                      </button>
                       <button class="btn btn-primary" id="submit-all">
                             <i class="glyphicon glyphicon-upload"></i>
                             <span>Enviar arquivos</span>
@@ -286,8 +290,10 @@
                       <button class="btn btn-warning" id="cancel-all">
                             <i class="glyphicon glyphicon-ban-circle"></i>
                             <span>Cancelar Todos</span>
-                      </button>
+                      </button>                      
+                      <span></span>
                       <span><img src="./img/gaveteirodigital.png" /> Arraste aqui seus documentos!</span>
+                      
                   </div>  
                   <div class="col-xs-12">                        
                       <span class="fileupload-process">
@@ -307,7 +313,7 @@
                             <div class="dz-image">
                                 <img data-dz-thumbnail />
                             </div>
-                            
+                            <input type="hidden" name="tags[]" value="">
                             <div class="dz-menu">
                                 <div class="row">                                  
                                   <div class="col-sm-12">
@@ -405,11 +411,21 @@
                       </div>
                   </div>                                           
               </div>
+              
+              <label>
+                  Tags de Sistema
+              </label>                                
+              <div class="well">
+                  <span class="badge text-capitalize" ng-repeat="tag in selectedDoc.tags.fixed">                                            
+                        {{tag}}
+                  </span>                          
+              </div>
+              
               <label>
                   Tags Cadastradas
               </label>                                
               <div class="well">
-                  <span class="badge text-capitalize" ng-repeat="tag in selectedDoc.tags">
+                  <span class="badge text-capitalize" ng-repeat="tag in selectedDoc.tags.user">
                         <div class="close" aria-label="Close" data-ng-click="removeTag($index)"><i class="fa fa-times-circle-o fa-fw" aria-hidden="true"></i></div>                                            
                         {{tag}}
                   </span>                          

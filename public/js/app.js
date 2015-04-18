@@ -33,7 +33,7 @@ options.api.msgs = {"nottosync":{text:"Não há informações para sincronizar",
                     "failtosync":{text:"Falha na sincronização com o servidor!!",type:"danger"},
                     "finalsync":{text:"Sincronização finalizada",type:"success"}
                    };
-
+                   
 imobDbApp.config(['$routeProvider', '$locationProvider', 'hammerDefaultOptsProvider',
 	function($routeProvider , $locationProvider, hammerDefaultOptsProvider)
 	{			
@@ -175,13 +175,22 @@ imobDbApp.config(['$routeProvider', '$locationProvider', 'hammerDefaultOptsProvi
 	}
 ]);
 
-imobDbApp.config(function ($httpProvider) {
-    $httpProvider.interceptors.push('TokenInterceptor');
+/*
+imobDbApp.controller('pageStatusCtrl',  function($scope) {    
+    if (navigator.onLine) {
+        $scope.page-status = "Online";
+    }else {
+        $scope.page-status = "Offline";
+    }
+});
+*/
+imobDbApp.config(function ($httpProvider) {    
+    $httpProvider.interceptors.push('TokenInterceptor');    
 });
 
-imobDbApp.run(function($rootScope, $location, $window, AuthenticationService) {
+imobDbApp.run(function($rootScope, $location, $window, AuthenticationService) { 
     $rootScope.$on("$routeChangeStart", function(event, nextRoute, currentRoute) {
-         if (nextRoute != null && nextRoute.access != null && nextRoute.access.requiredAuthentication 
+        if (nextRoute != null && nextRoute.access != null && nextRoute.access.requiredAuthentication 
             && !AuthenticationService.isAuthenticated && !$window.sessionStorage.token) {
             $rootScope.hidemenu = true;
             $location.path("/login").replace();            

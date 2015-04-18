@@ -90,7 +90,7 @@ imobDbServices.factory('PostService', function($http) {
 imobDbServices.factory('UserService', function($http) {
     return {
         signIn: function(username, password) {
-            return $http.post(options.api.base_url + '/users/signin', {username: username, password: password});
+            return $http.post(options.api.base_url + '/users/login', {username: username, password: password});
         },
 
         logOut: function() {
@@ -98,8 +98,37 @@ imobDbServices.factory('UserService', function($http) {
         },
 
         register: function(username, password, passwordConfirmation) {
-            return $http.post(options.api.base_url + '/users/register', {username: username, password: password, passwordConfirmation: passwordConfirmation });
-        }
+            return $http.post(options.api.base_url + '/users/create', {username: username, password: password, passwordConfirmation: passwordConfirmation });
+        },
+        
+        getAll: function(username, password, passwordConfirmation) {
+            return $http.get(options.api.base_url + '/users', {username: username, password: password, passwordConfirmation: passwordConfirmation });
+        },
+        
+        get: function(username, password, passwordConfirmation) {
+            return $http.get(options.api.base_url + '/users/' + user_id, {username: username, password: password, passwordConfirmation: passwordConfirmation });
+        },
+        
+        getSettings: function(username, password, passwordConfirmation) {
+            return $http.post(options.api.base_url + '/users/' + user_id + '/settings', {username: username, password: password, passwordConfirmation: passwordConfirmation });
+        },
+        
+        saveSettings: function(username, password, passwordConfirmation) {
+            return $http.post(options.api.base_url + '/users/' + user_id + '/settings', {username: username, password: password, passwordConfirmation: passwordConfirmation });
+        },
+        
+        uploadProfilePic: function(username, password, passwordConfirmation) {
+            return $http.post(options.api.base_url + '/users/profile_pic/upload', {username: username, password: password, passwordConfirmation: passwordConfirmation });
+        },
+        
+        update: function(username, password, passwordConfirmation) {
+            return $http.put(options.api.base_url + '/users/' + user_id, {username: username, password: password, passwordConfirmation: passwordConfirmation });
+        },
+        
+        delete: function(username, password, passwordConfirmation) {
+            return $http.delete(options.api.base_url + '/users/' + user_id, {username: username, password: password, passwordConfirmation: passwordConfirmation });
+        },
+        
     }
 });
 
