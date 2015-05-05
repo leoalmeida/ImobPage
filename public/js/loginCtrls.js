@@ -2,11 +2,11 @@
 loginDbControllers.controller('AdminUserCtrl', ['$scope', '$location', '$window', 'UserService', 'AuthenticationService',  
     function AdminUserCtrl($scope, $location, $window, UserService, AuthenticationService) {
  
-        //User Controller (register, login, logout)
-        $scope.signIn = function signIn(username, password) {
+        //User Controller (signUp, logIn, logOut)
+        $scope.logIn = function logIn(username, password) {
             if (username != null && password != null) {
 
-                UserService.signIn(username, password).success(function(data) {
+                UserService.logIn(username, password).success(function(data) {
                     AuthenticationService.isAuthenticated = true;
                     $window.sessionStorage.token = data.token;
                     if (!$window.sessionStorage.equipid){
@@ -37,16 +37,18 @@ loginDbControllers.controller('AdminUserCtrl', ['$scope', '$location', '$window'
             }
         }
         
-        $scope.register = function register(username, password, passwordConfirm) {
+        $scope.signUp = function signUp(username, password, passwordConfirm) {
             if (AuthenticationService.isAuthenticated) {
                 $location.path("/").replace();
             }
             else {
-                UserService.register(username, password, passwordConfirm).success(function(data) {
+                UserService.signUp(username, password, passwordConfirm).success(function(data) {
                     $location.path("/login");
+                    $('#signUpModal').modal('hide');
                 }).error(function(status, data) {
                     console.log(status);
                     console.log(data);
+                    $scope.returnMsg = status;
                 });
             }
         }

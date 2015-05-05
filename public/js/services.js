@@ -89,7 +89,7 @@ imobDbServices.factory('PostService', function($http) {
 
 imobDbServices.factory('UserService', function($http) {
     return {
-        signIn: function(username, password) {
+        logIn: function(username, password) {
             return $http.post(options.api.base_url + '/users/login', {username: username, password: password});
         },
 
@@ -97,7 +97,7 @@ imobDbServices.factory('UserService', function($http) {
             return $http.get(options.api.base_url + '/users/logout');
         },
 
-        register: function(username, password, passwordConfirmation) {
+        signUp: function(username, password, passwordConfirmation) {
             return $http.post(options.api.base_url + '/users/create', {username: username, password: password, passwordConfirmation: passwordConfirmation });
         },
         

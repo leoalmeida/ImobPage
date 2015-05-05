@@ -12,7 +12,7 @@
                   <div class="row-fluid user-row">                                    
                       <img src="/img/gato.png" class="img-responsive" alt="Console Admin" />	
                   </div>
-                  <form accept-charset="UTF-8" role="form" class="form-signin">
+                  <form accept-charset="UTF-8" role="form" class="form-login">
                       <fieldset>
                           <label class="panel-login">
                               <div class="login_result"></div>
@@ -26,8 +26,8 @@
                             </label>
                           </div>                          
                           <br></br>                          
-                          <button class="btn btn-lg btn-success btn-block"  type="submit" ng-click="signIn(login.username, login.password)">Login »</button>                                                 
-                          <button class="btn btn-lg btn-info btn-block"  type="submit" data-toggle="modal" data-target="#registerModal">Register »</button>
+                          <button class="btn btn-lg btn-success btn-block"  type="submit" ng-click="logIn(login.username, login.password)">Login »</button>                                                 
+                          <button class="btn btn-lg btn-info btn-block"  type="submit" data-toggle="modal" data-target="#signUpModal">Register »</button>
                       </fieldset>
                   </form>                                                             
                 </div>
@@ -37,12 +37,11 @@
         </div>
     </div>
     
-<div class="modal" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+<div class="modal" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-          <h4 class="modal-title-success text-capitalize" id="registerModalLabel"><span class="label label-success">{{selected.cpf}}</span> {{selected.nome}}</span></h4>
+      <div class="modal-header">             
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>          
       </div>
       <div class="modal-body">
           <div class="container-fluid">
@@ -56,27 +55,31 @@
                     <div class="form-group">
                       <label for="inputUsername" class="col-sm-4 control-label">Username</label>
                       <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputUsername" placeholder="Username" ng-model="register.username">
+                        <input type="text" class="form-control" id="inputUsername" placeholder="Username" ng-model="signUp.username">
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="inputPassword" class="col-sm-4 control-label">Password</label>
                       <div class="col-sm-4">
-                        <input type="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="register.password">
+                        <input type="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="signUp.password">
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="inputPasswordConfirmation" class="col-sm-4 control-label">Password Confirmation</label>
                       <div class="col-sm-4">
-                        <input type="password" class="form-control" id="inputPasswordConfirmation" placeholder="Password" ng-model="register.passwordConfirmation">
+                        <input type="password" class="form-control" id="inputPasswordConfirmation" placeholder="Password" ng-model="signUp.passwordConfirmation">
                       </div>
                     </div>
                     <div class="form-group">
                       <div class="col-sm-offset-4 col-sm-4">
-                        <button type="submit" class="btn btn-default btn-block" ng-click="register(register.username, register.password, register.passwordConfirmation)">Register</button>
+                        <button type="submit" class="btn btn-default btn-block" ng-click="signUp(signUp.username, signUp.password, signUp.passwordConfirmation)">Register</button>
                       </div>
-                    </div>
+                      <div class="col-sm-offset-4 col-sm-4">
+                        <span class="label label-success" id="returnMsg" data-ng-model="returnMsg">{{returnMsg}}</span>
+                      </div>
+                    </div>                    
                   </form>
+                  
               </div>
           </div>
       </div>
