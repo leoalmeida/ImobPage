@@ -17,6 +17,15 @@ imobDbFilters.filter('dateFormat', function() {
 		};
 	});
 
+imobDbFilters.filter('formatoMonetario', function() {
+		return function(input,type) {
+			if(!input) return "";
+			var res = "R$" + input + ",00" ;			
+			
+			return res;		
+		};
+	});
+
 imobDbFilters.filter('formatoEndereco', function() {
 		return function(input) {
 			if(!input) return "";			

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- <html lang="en" manifest="cache.manifest" ng-app="imobDbApp"> -->
-<html lang="pt-br" ng-app="imobDbApp">
+<html lang="pt-br" manifest="cache.manifest" ng-app="imobDbApp">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
@@ -46,6 +46,7 @@
     <script src= "/js/underscore.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src= "/js/jquery.mask.min.js"></script>
+    <script src= "/js/jquery.easing.min.js"></script>
     
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="/js/ie10-viewport-bug-workaround.js"></script>
@@ -74,7 +75,7 @@
     <script src= "/js/filters.js"></script>
     <script src= "/js/services.js"></script>
     <script src= "/js/directives.js"></script>
-    <script src= "/js/ngDraggable.js"></script>	
+    <script src= "/js/ngDraggable.js"></script>    	
     
     <!-- Calendar scripts -->	 	
     <script src= "/js/calendar.js"></script>
@@ -111,11 +112,11 @@
             <li class="dropdown">
               <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-database fa-fw"></i>&nbsp; Cadastro <span class="caret"></span></a>					  
               <ul class="dropdown-menu" role="menu">
-                <li><a href="/cadastro/clientes"><i class="fa fa-group fa-fw"></i>&nbsp;&nbsp;&nbsp;&nbsp;Clientes</a></li>					    
+                <li><a href="/cadastro/clientes"><i class="fa fa-group fa-fw"></i>&nbsp;&nbsp;&nbsp;&nbsp;Clientes</a></li>
+                <li><a href="/cadastro/eventos"><i class="fa fa-flag-o fa-fw"></i>&nbsp;&nbsp;&nbsp;&nbsp;Eventos</a></li>
+                <li class="divider"></li>
                 <li><a href="/cadastro/imoveis"><i class="fa fa-building-o fa-fw"></i>&nbsp;&nbsp;&nbsp;&nbsp;Im&oacute;veis</a></li>
                 <li><a href="/cadastro/contratos"><i class="fa fa-legal fa-fw"></i>&nbsp;&nbsp;&nbsp;&nbsp;Contratos</a></li>
-                <li class="divider"></li>
-                <li><a href="/cadastro/eventos"><i class="fa fa-flag-o fa-fw"></i>&nbsp;&nbsp;&nbsp;&nbsp;Eventos</a></li>
                 <li class="divider"></li>
                 <li><a href="/relatorios"><i class="fa fa-clipboard fa-fw"></i>&nbsp;&nbsp;&nbsp;&nbsp;Relat&oacute;rios</a></li>
                 <li><a href="/biblioteca"><i class="fa fa-institution fa-fw"></i>&nbsp;&nbsp;&nbsp;&nbsp;Biblioteca</a></li>
@@ -123,14 +124,14 @@
             </li>
             <li><a href="/calendario"><i class="fa fa-calendar fa-fw"></i>&nbsp; Calendário</a></li>                
             <!--  <li><a href="/profile"><i class="fa fa-users fa-fw"></i>&nbsp; Profile</a></li>-->
-            <li class="dropdown">
+            <li class="dropdown" ng-hide="true">
               <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-calculator fa-fw"></i>&nbsp; Calculadoras <span class="caret"></span></a>					  
               <ul class="dropdown-menu" role="menu">                		                
                 <li><a href="" data-toggle="modal" data-target="#calc-overlay" aria-expanded="false"><i class="fa fa-calculator fa-fw"></i>&nbsp;&nbsp;&nbsp;&nbsp; Padr&atilde;o</a></li>
-                <li><a href="/calculadoras/emprestimo"><i class="fa fa-list-ol fa-fw"></i>&nbsp;&nbsp;&nbsp;&nbsp; Empr&eacute;stimo</a></li>               
+                <li><a href="/calculadoras/emprestimo" ><i class="fa fa-list-ol fa-fw"></i>&nbsp;&nbsp;&nbsp;&nbsp; Empr&eacute;stimo</a></li>               
               </ul>
             </li>
-            <li>
+            <li ng-hide="true">
                 <a href="/sync">                
                   <i class="fa fa-cloud-upload fa-fw"></i>Sync
                 </a>
@@ -146,7 +147,7 @@
               </div>
             </form>				
             </li>
-            <li>              
+            <li ng-hide="true">              
               <a href="/logout"><i class="fa fa-sign-out fa-fw"></i>Logout</a>					  
             </li>
           </ul>
@@ -166,7 +167,7 @@
 	</div>
 	
 	<!-- Login Overlay modal-->
-	
+	<!-- 
 	<div class="modal" id="login-overlay" tabindex="-1" role="dialog" aria-labelledby="login-modal" aria-hidden="true">
 		<div class="modal-dialog">	
 		<div class="modal-content">
@@ -199,14 +200,14 @@
 				      <button type="submit" class="btn btn-success btn-block">Login</button>
 				      <a href="/forgot/" class="btn btn-default btn-block">Help to login</a>
 				  </form>
-			      </div><!-- well -->
-			</div><!-- col-xs-12 -->		  
-			</div><!-- row -->
-			</div><!-- modal-body -->
-		</div><!-- modal-dialog -->
+			      </div>
+			</div>	  
+			</div>
+			</div>
+		</div>
 		</div>
 	</div>
-	
+
 	
 	<div class="modal" id="calc-overlay" tabindex="-1" role="dialog" aria-labelledby="calc-modal" aria-hidden="true">
 		<div class="modal-dialog">	
@@ -253,6 +254,6 @@
     </div>
     </div>
   </div>
- 
+	 --> 
 </body>
 </html>

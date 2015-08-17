@@ -20,6 +20,83 @@ var OBJECT_STORE_CONTRATOS = 'contrato';
 var OBJECT_STORE_DOCUMENTOS = 'documento';
 var OBJECT_STORE_TIPODOC = 'tipoDocumento';
 
+
+var TaxaSchema = function() {
+  this.canTalk = true;
+  this.greet = function() {
+    if (this.canTalk) {
+      console.log('Hi, I\'m ' + this.name);
+    }
+  };
+};
+
+var TaxaSchema = (function () { 
+    
+    // private static
+    var nextId = 1;
+    var tiposTaxa = ["Condomínio", "IPTU", "Taxa Extra", "Multa"]; 
+    var valorTotal = 0.00;
+    
+    // constructor
+    var taxa = function () {
+              // private
+              this.id = nextId++;
+              this.tipo = tiposTaxa[0];    
+              this.valor = 0;
+              this.pagamento = Date.now(); 
+    };
+    
+    taxa.prototype.getTipo = function() {
+        return this.tipo;
+    }
+       
+    taxa.prototype.setTipo = function(value) {
+        this.tipo = value;
+    }
+    
+    taxa.prototype.getPagamento = function() {
+        return this.pagamento;
+    }    
+    
+    taxa.prototype.setPagamento = function(value) {
+        this.pagamento = value;
+    }
+    
+    taxa.prototype.getValor = function() {
+        return this.valor;
+    };
+    
+    taxa.prototype.setValor = function(value) {
+        this.valor = value;
+    };
+    
+    // public static
+    taxa.get_nextId = function () {
+        return nextId;
+    };
+    
+    taxa.get_tiposTaxa = function () {
+        return tiposTaxa;
+    };
+    
+    taxa.get_valorTotal = function (lista) {
+        valorTotal = 0.00;
+        for ( var item in lista )(
+          valorTotal += lista[item].valor
+        );         
+        return valorTotal;
+    };
+
+    // public (shared across instances)
+    taxa.prototype = {
+             
+    };
+
+    return taxa;
+})();
+
+
+
 imobDbControllers.config(function ($indexedDBProvider) {
 	$indexedDBProvider
       .connection('imobapp-localdb')
@@ -129,15 +206,15 @@ imobDbControllers.controller('HomeCtrl', ['$scope', '$indexedDB', 'PostService',
 	/**
 	* @type Contratos
 	*/
-	var contratosObjectStore = $indexedDB.objectStore(OBJECT_STORE_CONTRATOS);
+	var clientesObjectStore = $indexedDB.objectStore(OBJECT_STORE_CLIENTES);
 	var documentosObjectStore = $indexedDB.objectStore(OBJECT_STORE_TIPODOC);
 	
 	
 	
-  function buscaContratos() {
-		contratosObjectStore.getAll().then(function(contratosList) {  
+  function buscaClientes() {
+		clientesObjectStore.getAll().then(function(clientesList) {  
 		//persistanceService.buscaImoveis().then(function(imoveisList) {
-			$scope.listViewContratos = contratosList;
+			$scope.listViewClientes = clientesList;
 		});		
 	}
 	
@@ -197,7 +274,7 @@ imobDbControllers.controller('HomeCtrl', ['$scope', '$indexedDB', 'PostService',
 	if($indexedDB.onDatabaseError) {
 		$location.path('/unsupported');
 	} else {
-		  buscaContratos();
+		  buscaClientes();
 		  buscaEventos();		  
 	}
 			
@@ -870,7 +947,46 @@ imobDbControllers.controller('EventosCtrl', ['$scope', '$indexedDB',
 	$scope.isSelected = function(section) {
 	    return $scope.selected === section;
 	};
-		
+	
+  $scope.criaPDF = function() {
+     var pdf = new jsPDF();
+     var string = $('.modal-body')[0].innerText.split('\n'); 
+     var i = 1;
+     for (var index in string){
+        
+       if ((index == 21)) continue;
+        else if ((index == 0) || (index > 21) || (string[index]=="")) {
+           pdf.text(10, 10 * i++,string[index]);
+        } else if ((index%2) || (index == 20) ){
+           var str = string[index] + string[++index];
+           pdf.text(10, 10 * i++,str);
+        }; 
+        
+     }
+     string= pdf.output();
+    
+     document.location.href = 'data:application/pdf;base64,base64encodedpdf' + Base64.encode(string);
+          
+     /*
+     var specialElementHandlers = {
+       '.export': function(element, renderer){
+          return true; 
+       }
+     }
+     
+     doc.fromHTML($('div.modal-body').get(0),15,15,{
+        'width':170,    
+        'elementHandlers':specialElementHandlers
+     });*/
+  };
+  
+  //Modal controls
+  /*$scope.animationsEnabled = true;
+  
+  $scope.open = function(size) {
+    
+  } 
+		*/
 	$scope.removeEvento = function(key) {
 		eventosObjectStore.delete(key).then(function() {			
 			buscaEventos();
@@ -894,78 +1010,49 @@ imobDbControllers.controller('EventosEditCtrl', ['$scope', '$log', '$rootScope',
     /**
     * @type {ObjectStore}
     */
-    var eventosObjectStore = $indexedDB.objectStore(OBJECT_STORE_EVENTOS);    
-    var contratosObjectStore = $indexedDB.objectStore(OBJECT_STORE_CONTRATOS);    
-    var clientesObjectStore = $indexedDB.objectStore(OBJECT_STORE_CLIENTES);    
-    var imoveisObjectStore = $indexedDB.objectStore(OBJECT_STORE_IMOVEIS);
+    var eventosObjectStore = $indexedDB.objectStore(OBJECT_STORE_EVENTOS);   
+    var clientesObjectStore = $indexedDB.objectStore(OBJECT_STORE_CLIENTES);   
     
-    $scope.novoevento = {};
-    $scope.relacao = {};
-    $scope.novoevento.relacionados = [];
-    $scope.itemsList = [];
-    
-    //$scope.relacao = {};
     $scope.tiposEvento = [{text:"Boleto",value:"boleto"},{text:"Contrato",value:"contrato"},{text:"Renovação",value:"renovacao"},{text:"Pagamento",value:"pagamento"}];    
-    $scope.tiposRelacao = [{text:"Cliente",value:"cliente"},{text:"imóvel",value:"imovel"},{text:"Contrato",value:"contrato"}];
     $scope.tiposSituacao = [{text:"Ativo",value:"ativo"},{text:"À Vencer",value:"avencer"},{text:"Vencido",value:"vencido"},{text:"Liquidado",value:"liquidado"}];
-    $scope.novoevento.situacao = "ativo";
+   
     
-    $scope.today= function() {
-        $scope.dt = new Date();
+    $scope.itemsList = [];
+    $scope.tiposTaxa = TaxaSchema.get_tiposTaxa();
+    $scope.novoevento = {};
+    $scope.novoevento.situacao = "ativo";    
+    $scope.novoevento.tipo = 'pagamento';
+    $scope.novoevento.cobranca = 0;
+    $scope.novoevento.comissao = 0;
+    $scope.novoevento.deposito = 0;
+    $scope.novoevento.aluguel = 0;
+    $scope.novoevento.listaTaxas = [];
+    $scope.novoevento.listaTaxas.push(new TaxaSchema());
+    $scope.novoevento.totaltaxas = 0;
+           
+    clientesObjectStore.getAll().then(function(itemsList) {
+        $scope.itemsList = itemsList;
+    });
+    
+    $scope.atualizaValores = function() {
+        $scope.novoevento.totaltaxas = TaxaSchema.get_valorTotal($scope.novoevento.listaTaxas);
+        $scope.novoevento.cobranca = $scope.novoevento.aluguel + $scope.novoevento.totaltaxas;
+        $scope.novoevento.comissao = $scope.novoevento.cobranca * 0.08;
+        $scope.novoevento.deposito =  $scope.novoevento.cobranca - $scope.novoevento.totaltaxas - $scope.novoevento.comissao;
     };
     
-    $scope.today();
-
-    $scope.clear = function () {
-        $scope.dt = null;
-    };
-
-    $scope.dateOptions = {
-        formatDay: 'dd',
-        formatMonth: 'MM',
-        formatYear: 'yyyy',
-        startingDay: 1
-    };
+    $scope.incluirTaxa = function(){
+      $scope.novoevento.listaTaxas.push(new TaxaSchema());
+    }   
     
-    $scope.incluirRelacionado = function(){
-        if ($scope.relacao.relacionado !== ''){
-            $scope.novoevento.relacionados.push($scope.relacao);
-            $scope.relacao = {};
-        }
-    };
-    
-    $scope.removeRelacao = function(index){
-        $scope.novoevento.relacionados.splice(index, 1);
-    };
-    
-    $scope.buscarRelacoes = function(escolha){
-      
-      switch (escolha.value){
-          case "cliente":
-            clientesObjectStore.getAll().then(function(itemsList) {
-              $scope.itemsList = itemsList;
-            });		
-            break;
-          case "imovel":
-            imoveisObjectStore.getAll().then(function(itemsList) {
-              $scope.itemsList = itemsList;
-            });		
-            break;
-          case "contrato":
-            contratosObjectStore.getAll().then(function(itemsList) {
-              $scope.itemsList = itemsList;
-            });		
-            break;
-          default:
-            return;
-      }
-      
-    };
-    
+    $scope.removerTaxa = function(key){
+      $scope.novoevento.listaTaxas.splice(key,1);
+    }   
+   
     $scope.cancel = function() {
         
-    };
-  
+    };    
+      
     $scope.submit = function() {
         
         $scope.novoevento.updated = $filter('dateFormat')(new Date(),false);
@@ -1001,23 +1088,30 @@ imobDbControllers.controller('EventosEditCtrl', ['$scope', '$log', '$rootScope',
         });
       
     };
-  
-    function buscaInfo() {
-      
+    
+    function buscaInfo() {      
       if($routeParams.id) {
         var myQuery = $indexedDB.queryBuilder().$eq(Number($routeParams.id)).$asc().compile();
         eventosObjectStore.each(
           function(evento){
             $scope.novoevento.id = evento.value.id;
-            $scope.novoevento.relacionados = evento.value.relacionados;
             $scope.novoevento.situacao = evento.value.situacao;
             $scope.novoevento.dataInicio = evento.value.dataInicio;
             $scope.novoevento.dataVencimento = evento.value.dataVencimento;
             $scope.novoevento.descricao = evento.value.descricao;
             $scope.novoevento.tipo = evento.value.tipo;
             $scope.novoevento.titulo = evento.value.titulo;
+            $scope.novoevento.totaltaxas = evento.value.totaltaxas;
+            $scope.novoevento.aluguel = evento.value.aluguel;
+            $scope.novoevento.cobranca = evento.value.cobranca;
+            $scope.novoevento.comissao = evento.value.comissao;
+            $scope.novoevento.deposito =  evento.value.deposito;
+            $scope.novoevento.inquilino = evento.value.inquilino;
+            $scope.novoevento.proprietario = evento.value.proprietario;
+            $scope.novoevento.listaTaxas = evento.value.listaTaxas;
           }
-        ,myQuery);
+        ,myQuery);        
+        
       }
     }
     
@@ -1026,114 +1120,40 @@ imobDbControllers.controller('EventosEditCtrl', ['$scope', '$log', '$rootScope',
     } else {
       buscaInfo();
     }
-}]);
+    
+  $scope.today = function() {
+    $scope.dt = new Date();   
+  };
+  $scope.today(); 
+  
+  
+  $scope.clear = function () {
+    $scope.dt = null;
+  };
+  
+  $scope.open = function($event) {
+    $scope.status.opened = true;
+  };
 
+  $scope.dateOptions = {
+        formatDay: 'dd',
+        formatMonth: 'MM',
+        formatYear: 'yyyy',
+        startingDay: 1
+  };
+    
+    
+  $scope.dateOptions2 = {
+        formatDay: 'dd',
+        formatMonth: 'MMMM',
+        formatYear: 'yyyy',
+        startingDay: 1
+  };
+      
  
-function CalendarModuleCtrl($scope,$compile,uiCalendarConfig) {
-    			
-	var date = new Date();
-  var d = date.getDate();
-  var m = date.getMonth();
-  var y = date.getFullYear();
-    
-  $scope.changeTo = 'Portuguese';
-  $scope.eventos = [];
-    
-  $scope.calEventsExt = {
-       color: '#f00',
-       textColor: 'yellow',
-       events: [ 
-          {type:'party',title: 'Lunch',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
-          {type:'party',title: 'Lunch 2',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
-          {type:'party',title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
-        ]
-    };
-    /* alert on eventClick */
-    $scope.alertOnEventClick = function( date, jsEvent, view){
-        $scope.alertMessage = (date.title + ' was clicked ');
-    };
-    /* alert on Drop */
-     $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
-       $scope.alertMessage = ('Event Droped to make dayDelta ' + delta);
-    };
-    /* alert on Resize */
-    $scope.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
-       $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
-    };
-    /* add and removes an event source of choice */
-    $scope.addRemoveEventSource = function(sources,source) {
-      var canAdd = 0;
-      angular.forEach(sources,function(value, key){
-        if(sources[key] === source){
-          sources.splice(key,1);
-          canAdd = 1;
-        }
-      });
-      if(canAdd === 0){
-        sources.push(source);
-      }
-    };
-    /* add custom event*/
-    $scope.addEvent = function() {
-      $scope.events.push({
-        title: 'Open Sesame',
-        start: new Date(y, m, 28),
-        end: new Date(y, m, 29),
-        className: ['openSesame']
-      });
-    };
-    /* remove event */
-    $scope.remove = function(index) {
-      $scope.eventos.splice(index,1);		
-    };
-    /* Change View */
-    $scope.changeView = function(view,calendar) {
-      uiCalendarConfig.calendars[calendar].fullCalendar('changeView',view);
-    };
-    /* Change View */
-    $scope.renderCalender = function(calendar) {
-      if(uiCalendarConfig.calendars[calendar]){
-        uiCalendarConfig.calendars[calendar].fullCalendar('render');
-      }
-    };
-     /* Render Tooltip */
-    $scope.eventRender = function( event, element, view ) { 
-        element.attr({'tooltip': event.title,
-                     'tooltip-append-to-body': true});
-        $compile(element)($scope);
-    };
-    /* config object */
-    $scope.uiConfig = {
-      calendar:{
-        height: 450,
-        editable: true,
-        header:{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'month,agendaWeek,agendaDay'
-        },
-        eventClick: $scope.alertOnEventClick,
-        eventDrop: $scope.alertOnDrop,
-        eventResize: $scope.alertOnResize,
-        eventRender: $scope.eventRender
-      }
-    };
+  $scope.status = {
+    opened: false
+  };
 
-    $scope.changeLang = function() {
-      if($scope.changeTo === 'Portuguese'){
-        $scope.uiConfig.calendar.dayNames = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
-        $scope.uiConfig.calendar.dayNamesShort = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-        $scope.changeTo= 'English';
-      } else {
-        $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-        $scope.changeTo = 'Portuguese';
-      }
-    };
-    /* event sources array*/
-    $scope.eventSources = [$scope.events, $scope.eventos];
     
-} 
-/* EOF */
-
-
+}]);

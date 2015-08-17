@@ -13,60 +13,55 @@
           <div class="col-xs-8 col-md-8">
               <!-- RELAÇÃO DO EVENTO -->
               <div class="form-group">
-                    <div class="row">
-                    <label for="tipo" class="col-xs-2 col-md-2 control-label">Relacionados</label>
-                    <div class="col-xs-9 col-md-9">
-                        <div class="row">
-                          <div class="col-xs-6 col-md-6" role="group">
-                            <div class="btn-group btn-group-justified">
-                                <label data-ng-repeat="tprelac in tiposRelacao" class="btn btn-primary text-capitalize" data-ng-click="buscarRelacoes(tprelac)" ng-model="relacao.tiporelacao" btn-radio="'{{tprelac.value}}'" ><strong><i data-ng-show="relacao.tiporelacao===tprelac.value" class="fa fa-paw"></i>&nbsp;{{tprelac.text}}</strong></label>                    
-                            </div>
-                          </div>
-                          <div class="col-xs-6 col-md-6 pull-right" role="group">                              
-                              <div class="input-group" role="group">	
-                                <input type="text" class="form-control" data-ng-model="relacao.relacionado" required="required" readonly />
-                                <div class="input-group-btn" role="group">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                      <span class="caret"></span>
-                                      <span class="sr-only">Toggle Dropdown</span>
-                                    </button>
-                                    <ul id="relList" class="dropdown-menu" role="menu">
-                                      <li data-ng-if="relacao.tiporelacao==='cliente'" data-ng-repeat="item in itemsList" data-ng-click="relacao.relacionado = item.cpf">{{item.cpf}}</li>
-                                      <li data-ng-if="relacao.tiporelacao!=='cliente'" data-ng-repeat="item in itemsList" data-ng-click="relacao.relacionado = item.id">{{item.id}}</li>
-                                      <li data-ng-if="relacao.tiporelacao!=='cliente'" data-ng-repeat="item in itemsList" data-ng-click="relacao.relacionado = item.id">{{item.id}}</li>
-                                    </ul>
-                                    <button data-ng-click="incluirRelacionado()" class="btn btn-primary" >
-                                      <i class="fa fa-upload fa-fw fa-inverse"></i>&nbsp;Incluir
-                                    </button>
-                                </div>
-                              </div>
-                          </div>
-                        </div>
-                        <br/>
-                        <div class="row">
-                          <div class="col-xs-12 col-md-12"> 
-                            <div class="panel panel-default">
-                                <div class="panel-heading">Lista de Relacionados</div>
-                                <div class="panel-body">
-                                    <alert ng-repeat="rel in novoevento.relacionados" type="info" close="removeRelacao($index)">{{rel.tiporelacao}} : {{rel.relacionado}}</alert>                                      
-                                </div>
-                            </div>
+                    <label for="tipo" class="col-xs-2 col-md-2 control-label">Inquilino</label>
+                    <div class="col-xs-9 col-md-9" role="group"> 
+                        <div class="input-group" role="group">	
+                          <input type="text" class="form-control" data-ng-model="novoevento.inquilino.nome" required="required" readonly />
+                          <div class="input-group-btn" role="group">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                              </button>
+                              <ul id="relList" class="dropdown-menu" role="menu">
+                                <li data-ng-repeat="item in itemsList" data-ng-click="novoevento.inquilino = item">{{item.nome}}</li>                                      
+                              </ul>
                           </div>
                         </div>
                     </div>
                     <div class="col-xs-1 col-md-1">
-                        <span class="label label-danger" data-ng-show="submitted && myForm.novoevento.tprelac.$error.required">Obrigat&oacute;rio!</span>
-                    </div>
+                        <span class="label label-danger" data-ng-show="submitted && myForm.novoevento.inquilino.$error.required">Obrigat&oacute;rio!</span>
                     </div>
               </div>
-                
+              <div class="form-group">
+                    <label for="tipo" class="col-xs-2 col-md-2 control-label">Proprietário</label>
+                    <div class="col-xs-9 col-md-9" role="group">
+                        <div class="input-group" role="group">	                             
+                          <input type="text" class="form-control" data-ng-model="novoevento.proprietario.nome" required="required" readonly />
+                          <div class="input-group-btn" role="group">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                              </button>
+                              <ul id="relList" class="dropdown-menu" role="menu">
+                                <li data-ng-repeat="item in itemsList" data-ng-click="novoevento.proprietario = item">{{item.nome}}</li>                                      
+                              </ul>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-md-1">
+                        <span class="label label-danger" data-ng-show="submitted && myForm.novoevento.proprietario.$error.required">Obrigat&oacute;rio!</span>
+                    </div>
+              </div>          
+                             
               <!-- TIPO DE EVENTO -->
               <div class="form-group">
                     <div class="row">
                     <label for="tipo" class="col-xs-2 col-md-2 control-label">Tipo de Evento</label>
                     <div class="col-xs-9 col-md-9">
                         <div class="btn-group btn-group-justified">                            
-                            <label data-ng-repeat="tpevento in tiposEvento" class="btn btn-primary text-capitalize" ng-model="novoevento.tipo" btn-radio="'{{tpevento.value}}'"><strong><i data-ng-show="novoevento.tipo===tpevento.value" class="fa fa-paw"></i>&nbsp;{{tpevento.text}}</strong></label>                    
+                            <label data-ng-repeat="tpevento in tiposEvento" class="btn btn-primary text-capitalize disabled" ng-model="novoevento.tipo" btn-radio="'{{tpevento.value}}'"><strong>
+                                <i data-ng-show="novoevento.tipo===tpevento.value" class="fa fa-paw"></i>&nbsp;{{tpevento.text}}</strong>
+                            </label>                    
                         </div>
                     </div>
                     <div class="col-xs-1 col-md-1">
@@ -127,8 +122,122 @@
           </div>
       </div>   
       
-      <!-- Documentação -->
       <div class="row">     
+        <div class="col-xs-12">          
+          <div class="panel panel-body panel-default">
+            <legend>
+                  <label for="documents" class="control-label">Itens de Pagamento</label>                          
+            </legend>            
+            <div class="col-xs-4">
+                <div class="row">
+                    <label for="aluguel" class="col-xs-6 control-label">Valor Aluguel</label>	
+                    <div class="col-xs-5">			
+                      <input type="number" id="aluguel" name="aluguel" data-ng-change="atualizaValores()" data-ng-model="novoevento.aluguel" class="form-control" required="required" placeholder="Aluguel" pattern="\d+(,\d{2})?" min="0" step="0.01"/>	
+                    </div>
+                    <div class="col-xs-1">
+                      <span class="label label-danger" data-ng-show="submitted && myForm.novoevento.aluguel.$error.required">Obrigat&oacute;rio!</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="cobranca" class="col-xs-6  control-label">Valor Cobrança</label>	
+                    <div class="col-xs-5">
+                      <input type="number" id="cobranca" name="cobrar" data-ng-model="novoevento.cobranca" class="form-control" required="required" placeholder="Cobrança" readonly="readonly"/>	
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="comissao" class="col-xs-6  control-label">Comissão</label>	
+                    <div class="col-xs-5">			
+                      <input type="number" id="comissao" name="comissao" data-ng-model="novoevento.comissao" class="form-control" required="required" placeholder="Comissão" readonly="readonly"/>	
+                    </div>                    
+                </div>
+                <div class="row">
+                    <label for="deposito" class="col-xs-6  control-label">Depósito</label>	
+                    <div class="col-xs-5">			
+                      <input type="number" id="deposito" name="deposito" data-ng-model="novoevento.deposito" class="form-control" required="required" placeholder="Depósito" readonly="readonly"/>	
+                    </div>
+                </div>
+            </div>    
+            <div class="col-xs-8">
+              <div class="table-responsive" style="overflow: visible">
+                  <table class="table table-striped tabledash">
+                      <thead>
+                        <tr>                    		
+                          <th class="col-xs-3 text-center">
+                            <h4>
+                            <a data-ng-click="sortBy='get_tipo()'; reverse=!reverse" role="button">
+                            Tipo
+                            </a><a data-ng-show="sortBy=='get_tipo()'" data-ng-click="sortBy=''" class="glyphicon glyphicon-remove"></a>
+                            </h4>					
+                          </th>				
+                          <th class="col-xs-3 text-center">
+                            <h4>
+                            <a data-ng-click="sortBy='get_valor()'; reverse=!reverse" role="button">
+                            Valor
+                            </a><a data-ng-show="sortBy=='get_valor()'" data-ng-click="sortBy=''" class="glyphicon glyphicon-remove"></a>
+                            </h4>					
+                          </th>	
+                          <th class="col-xs-5 text-center">
+                            <h4>
+                            <a data-ng-click="sortBy='get_pagamento()'; reverse=!reverse" role="button">
+                            Data de Pagamento
+                            </a><a data-ng-show="sortBy=='get_pagamento()'" data-ng-click="sortBy=''" class="glyphicon glyphicon-remove"></a>
+                            </h4>							
+                          </th>
+                          <th class="col-xs-1 text-center">
+                            <div class="inline">					
+                              <a href="#" class="btn btn-success btn-lg" data-ng-click="incluirTaxa()"><i class="fa fa-pencil fa-fw fa-inverse"></i></a>
+                            </div>	
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr data-ng-repeat="item in novoevento.listaTaxas track by $id(item)">        
+                          <td class="text-center	text-capitalize">
+                              <div class="input-group" role="group">	
+                                <input type="text" class="form-control" data-ng-model="item.tipo" required="required" readonly />
+                                <div class="input-group-btn" role="group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                      <span class="caret"></span>
+                                      <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul id="relList" class="dropdown-menu" role="menu">
+                                      <li data-ng-repeat="tpTaxa in tiposTaxa" data-ng-click="item.tipo = tpTaxa">{{tpTaxa}}</li>                                      
+                                    </ul>
+                                </div>
+                              </div>                              
+                          </td>
+                          <td class="text-center	text-capitalize">
+                              <input type="number" id="taxa" name="taxa" data-ng-change="atualizaValores()" data-ng-model="item.valor" class="form-control" required="required" placeholder="Taxa" pattern="\d+(,\d{2})?" min="0" step="0.01"/>
+                          </td>
+                          <td class="text-center	text-capitalize">
+                          <div>
+                              <p class="input-group">
+                                <input type="date" class="form-control" datepicker-popup
+                                          data-ng-model="item.pagamento" is-open="status.opened" 
+                                          min-date="minDate" max-date="'2020-06-22'" 
+                                          datepicker-options="dateOptions2" date-disabled="disabled(date, mode)" 
+                                          data-ng-required="true" close-text="Fechar" current-text="Hoje" clear-text="Limpar"/>                                
+                                <span class="input-group-btn">
+                                  <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                              </p>
+                          </div>
+                          </td>				
+                          <td class="text-center">
+                            <a class="btn btn-primary btn-xs" data-ng-click="editarItemTaxa(item.id)"><i class="fa fa-pencil-square-o fa-fw fa-inverse"></i></a> 
+                            <a class="btn btn-danger btn-xs" data-ng-click="removerTaxa(item.id)"><i class="fa fa-trash-o fa-fw fa-inverse"></i></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Documentação -->
+      <div class="row" data-ng-hide="true" >     
         <div class="col-xs-12">          
           <div class="panel panel-body panel-default">
             <legend>
@@ -155,7 +264,7 @@
                         </span>
                     </div>
                 </div>
-                
+                <!--
                 <div class="dropzone" dropzone="dropzoneConfig" id="uploadSection">
                 
                   <div  class="dz-default dz-message">
@@ -164,7 +273,7 @@
                   
                 </div>
                     
-                <!--<div class="table table-striped" class="files" dropzone="dropzoneConfig" id="previews">
+                <div class="table table-striped" class="files" dropzone="dropzoneConfig" id="previews">
                     <div id="template" class="file-row">
                       <div class="col-xs-3">
                           <span class="preview"><img data-dz-thumbnail /></span>
