@@ -1,0 +1,30 @@
+{
+  "name": "Imobapp",
+  "description": "Gestão de imobiliária",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "minimum_chrome_version": "29",
+  "oauth2": {
+    "client_id": "953449888791-iul1sac3dllhl2to2enhqr3d5gnur0hn.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/drive",
+      "https://www.googleapis.com/auth/gmail"
+    ]
+  },
+  "icons": {
+    "128": "public/img/gato.png"
+  },
+  "background": {
+    "scripts": ["public/js/angularjs/1.2.28/angular.min.js"]
+  },
+  "content_security_policy": "script-src 'self'; object-src 'self'",
+  "chrome_url_overrides" : {
+    "newtab": "views/index.html"
+  },
+  "permissions": [  	
+    "storage", 
+    "identity",
+    "https://www.googleapis.com/",
+    "https://accounts.google.com/"
+  ]
+}

@@ -39,7 +39,7 @@ imobDbApp.config(['$routeProvider', '$locationProvider', 'hammerDefaultOptsProvi
 	{			
 		$routeProvider.
 		  when('/', {
-				templateUrl: '/partials/home.html',
+				templateUrl: 'partials/home.html',
 				controller: 'HomeCtrl',	
 				access: { requiredAuthentication: true }
 			}).
@@ -140,13 +140,13 @@ imobDbApp.config(['$routeProvider', '$locationProvider', 'hammerDefaultOptsProvi
 				access: { requiredAuthentication: true }
 			}).
 			when('/calendario', {  
-				templateUrl: 'partials/calendario.html',
+				templateUrl: '/partials/calendario.html',
 				controller: 'CalendarCtrl',
 				css: '/css/calendar.css',
 				access: { requiredAuthentication: true }
 			}).
 			when('/calculadoras/emprestimo', {  
-				templateUrl: 'partials/calculadoraEmprestimo.html',
+				templateUrl: '/partials/calculadoraEmprestimo.html',
 				controller: 'calculadoraCtrl',
 				access: { requiredAuthentication: false }
 			}).						
@@ -154,7 +154,7 @@ imobDbApp.config(['$routeProvider', '$locationProvider', 'hammerDefaultOptsProvi
 				templateUrl: '/partials/unsupported.html'
 			}).
 			when('/404', {
-				templateUrl: 'partials/404.html',
+				templateUrl: '/partials/404.html',
 				css: '/css/404.css',
 				access: { requiredAuthentication: false }
 			}).
